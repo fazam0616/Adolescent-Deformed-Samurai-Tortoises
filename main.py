@@ -19,3 +19,4 @@ class Point:
         return str(self.x)+", "+str(self.y)
 
 
+#goo goo gaa gaa
