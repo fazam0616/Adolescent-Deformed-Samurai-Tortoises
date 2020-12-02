@@ -1,18 +1,9 @@
 import sys
-from time import sleep
 
 import pygame
 import imageio
-import Character
-
-#Basic Classes
-class Point:
-    def __init__(self,x,y):
-        self.x = x
-        self.y = y
-    def __str__(self):
-        return str(self.x)+", "+str(self.y)
-
+import PlayableCharacters
+from Character import Point
 
 
 def main(*args):
@@ -21,24 +12,29 @@ def main(*args):
     # Initializing pygame internals and basic window setup
     pygame.init()
 
-
-    screen = pygame.display.set_mode((width, height))
     width = 1280
     height = 1024
+
+    screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
     wallimage = imageio.imread("images\\walls.bmp")
     wallMap = []
 
+    player = PlayableCharacters.Leo(wallMap, Point(100,100))
+    UP = False
+    DOWN = False
+    RIGHT = False
+    LEFT = False
+
     for i in range(25):
         wallMap.append([])
-    for x in range(25):
-        wallMap[i].append(0)
+        for x in range(25):
+            wallMap[i].append(0)
 
     # Reading the wall map and creating a local version for look-up
     for x in range(0, 1250, 50):
         for y in range(0, 1250, 50):
-            # print(x,y)
-            wallMap[int(x / 50)][int(y / 50)] = True if wallimage[x][y][0] != 0 else False
+            wallMap[int(x / 50)-1][int(y / 50)-1] = True if wallimage[x][y][0] != 0 else False
 
     #Game loop
     while True:
@@ -46,6 +42,20 @@ def main(*args):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        screen.fill((0,0,255))
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_w:
+                    UP = True
+                    DOWN = False
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_w:
+                    UP = False
+
+        if UP:
+            player.move(Point(0,-5))
+
+        screen.fill((0,0,0))
+        screen.blit(player.getImage(),player.getPos())
         pygame.display.update()
         clock.tick(20)
+
+main()
