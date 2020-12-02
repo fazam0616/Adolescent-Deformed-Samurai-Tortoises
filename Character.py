@@ -9,7 +9,7 @@ class Character:
             self.pos = point[0]
 
     def move(self, delta):
-        if main.wallMap[self.pos.x+delta.x][self.pos.y+delta.y] == 0:
+        if main.wallMap[self.pos.x+delta.x][self.pos.y+delta.y] == False:
             self.pos.x += delta.x
             self.pos.y += delta.y
     def getImage(self):

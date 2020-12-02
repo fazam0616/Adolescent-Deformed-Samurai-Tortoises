@@ -1,3 +1,6 @@
+import sys
+from time import sleep
+
 import pygame
 import imageio
 import Character
@@ -8,8 +11,23 @@ width = 1280
 height = 1024
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
-wallMap = imageio.imread()
+wallimage = imageio.imread("images\\walls.bmp")
+wallMap = []
 
+for i in range(25):
+    wallMap.append([])
+    for x in range(25):
+        wallMap[i].append(0)
+
+#Reading the wall map and creating a local version for look-up
+for x in range(0,1250,50):
+    for y in  range(0,1250,50):
+        #print(x,y)
+        wallMap[int(x/50)][int(y/50)] = wallimage[x][y]
+for i in range(25):
+    for x in range(25):
+        print(wallMap[i][x][0],end='\t')
+    print()
 #Basic Classes
 class Point:
     def __init__(self,x,y):
@@ -18,5 +36,12 @@ class Point:
     def __str__(self):
         return str(self.x)+", "+str(self.y)
 
-
-#goo goo gaa gaa
+#Game loop
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+    screen.fill((0,0,255))
+    pygame.display.update()
+    clock.tick(20)
