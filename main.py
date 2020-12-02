@@ -23,11 +23,9 @@ for i in range(25):
 for x in range(0,1250,50):
     for y in  range(0,1250,50):
         #print(x,y)
-        wallMap[int(x/50)][int(y/50)] = wallimage[x][y]
-for i in range(25):
-    for x in range(25):
-        print(wallMap[i][x][0],end='\t')
-    print()
+        wallMap[int(x/50)][int(y/50)] = True if wallimage[x][y][0] != 0 else False
+
+
 #Basic Classes
 class Point:
     def __init__(self,x,y):
