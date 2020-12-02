@@ -9,5 +9,8 @@ class Leo(Character.Character):
             super().__init__(wallMap, point[0],point[1])
         else:
             super().__init__(wallMap, point[0])
+        super().imageSetup("blue")
+
+
     def getImage(self):
-        return pygame.transform.scale(pygame.image.load("images\\Blue\\blue.png"),(50,66)) #TERRIBLE FOR FRAMES. PRECALCULATE AT STARTUP AND STORE EACH FRAME INSTEAD
+        return pygame.transform.rotate(self.baseImage,(self.rot)*90)
