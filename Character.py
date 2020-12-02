@@ -56,13 +56,13 @@ class Enemy (Character):
         distToPlayer[x][y]=0
 
         x+=1
-        if not(main.wallMap[x][y]):
+        #if not(main.wallMap[x][y]):
 
 
     def setDirection(self, x, y, distToPlayer): # takes the cordinates and sets a direction to the best next move... hunter doo doo code.. idrk where it goes...
-        for i in range(4)
-        self.bestDist
-        self.best_dir
+        #for i in range(4)
+        #self.bestDist
+        #self.best_dir
 
 
 Enemy.setDirection(1,1)
