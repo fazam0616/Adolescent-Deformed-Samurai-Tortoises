@@ -65,4 +65,4 @@ class Enemy (Character):
         #self.best_dir
 
 
-Enemy.setDirection(1,1)
+#Enemy.setDirection(1,1)
