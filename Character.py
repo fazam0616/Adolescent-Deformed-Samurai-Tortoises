@@ -127,9 +127,3 @@ class Enemy (Character):
 
 
 
-
-
-
-
-
-Enemy.
