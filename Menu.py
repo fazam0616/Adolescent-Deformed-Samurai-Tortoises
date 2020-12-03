@@ -1,13 +1,16 @@
-import tkinter
 from tkinter import *
-from tkinter import font
 
 # defines functions for buttons
 def playGame():
     print("plays game")
 
 def charSelect():
-    print("opens character selection menu")
+    playButton.place_forget()
+    characterButton.place_forget()
+    aboutButton.place_forget()
+    currentChar.place_forget()
+    title.place(x=105, y=50)
+    backButton.place(x=560, y=500)
 
 def about():
     playButton.place_forget()
@@ -15,7 +18,6 @@ def about():
     aboutButton.place_forget()
     currentChar.place_forget()
     title.place(x=105, y=50)
-
     aboutText.place(x=390, y=200)
     backButton.place(x=560, y=500)
 
