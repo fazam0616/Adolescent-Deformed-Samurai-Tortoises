@@ -32,7 +32,7 @@ def back():
 
 # open window for application
 app = Tk()
-app.title('Adolescent Deformed Samurai Tortoises')
+app.title('🐢 Adolescent Deformed Samurai Tortoises 🐢')
 app.geometry("1280x600+30-100")
 aboutText = Label(app, text="AI Pathing - Hunter Britton\n"
                                 "Menus - Alexander Lay\n"
