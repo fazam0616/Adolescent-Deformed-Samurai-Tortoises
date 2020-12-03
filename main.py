@@ -1,7 +1,8 @@
 import sys
 
-import pygame
 import imageio
+import pygame
+
 import PlayableCharacters
 from Character import Point
 
@@ -13,7 +14,10 @@ def calcPlayerPos(player):
     x -= offset.x
     y -= offset.y
 
-    return (x,y)
+    x -= player.getImage().get_width()/2
+    y -= player.getImage().get_height()/2
+
+    return (int(x),int(y))
 
 
 def main(*args):
@@ -27,6 +31,7 @@ def main(*args):
     height = 600
 
     screen = pygame.display.set_mode((width, height))
+    pygame.display.set_caption("Adolescent Deformed Samurai Tortoises")
     clock = pygame.time.Clock()
     wallimage = imageio.imread("images\\walls.bmp")
     wallMap = []
@@ -47,7 +52,7 @@ def main(*args):
     # Reading the wall map and creating a local version for look-up
     for x in range(0, 1250, 50):
         for y in range(0, 1250, 50):
-            wallMap[int(x / 50)][int(y / 50)] = True if wallimage[y][x][0] == 64 else False
+            wallMap[int(x / 50)][int(y / 50)] = True if wallimage[y+25][x+25][0] == 64 else False
 
     for i in range(25):
         print(wallMap[i])
@@ -89,17 +94,19 @@ def main(*args):
                     LEFT = False
         if UP:
             player.move(Point(0,-player.speed))
-            if player.pos.y*2 - offset.y < height * 0.3:
+            if player.pos.y * 2 - offset.y < height * 0.3:
                 if offset.y > 0:
-                    offset.y-=player.speed*2
+                    offset.y -= player.speed*2
         elif DOWN:
             player.move(Point(0,player.speed))
-            if player.pos.y*2 - offset.y > height * 0.7:
-                offset.y += player.speed*2
+            if player.pos.y * 2 - offset.y > height * 0.7:
+                if offset.y < 1900:
+                    offset.y += player.speed*2
         elif RIGHT:
             player.move(Point(player.speed,0))
             if player.pos.x * 2 - offset.x > width * 0.85:
-                offset.x += player.speed*2
+                if offset.x < 1220:
+                    offset.x += player.speed*2
         elif LEFT:
             player.move(Point(-player.speed,0))
             if player.pos.x * 2 - offset.x < width * 0.15:
