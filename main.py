@@ -6,22 +6,34 @@ import PlayableCharacters
 from Character import Point
 
 
+def calcPlayerPos(player):
+    x = player.pos.x*2
+    y = player.pos.y*2
+
+    x -= offset.x
+    y -= offset.y
+
+    return (x,y)
+
+
 def main(*args):
     global screen
     global wallMap
+    global offset
     # Initializing pygame internals and basic window setup
     pygame.init()
 
     width = 1280
-    height = 1024
+    height = 600
 
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
     wallimage = imageio.imread("images\\walls.bmp")
     wallMap = []
-    bg = pygame.image.load("images\\world.png")
+    bg = pygame.transform.scale(pygame.image.load("images\\world.png"),(2500,2500))
+    offset = Point(0,0)
 
-    player = PlayableCharacters.Leo(wallMap, Point(350,350))
+    player = PlayableCharacters.Leo(wallMap, Point(100,100))
     UP = False
     DOWN = False
     RIGHT = False
@@ -76,16 +88,26 @@ def main(*args):
                 if event.key == pygame.K_a:
                     LEFT = False
         if UP:
-            player.move(Point(0,-5))
+            player.move(Point(0,-player.speed))
+            if player.pos.y*2 - offset.y < height * 0.3:
+                if offset.y > 0:
+                    offset.y-=player.speed*2
         elif DOWN:
-            player.move(Point(0,5))
+            player.move(Point(0,player.speed))
+            if player.pos.y*2 - offset.y > height * 0.7:
+                offset.y += player.speed*2
         elif RIGHT:
-            player.move(Point(5,0))
+            player.move(Point(player.speed,0))
+            if player.pos.x * 2 - offset.x > width * 0.85:
+                offset.x += player.speed*2
         elif LEFT:
-            player.move(Point(-5,0))
+            player.move(Point(-player.speed,0))
+            if player.pos.x * 2 - offset.x < width * 0.15:
+                if offset.x > 0:
+                    offset.x -= player.speed*2
         screen.fill((0,0,0))
-        screen.blit(bg, (0, 0))
-        screen.blit(player.getImage(),player.getPos())
+        screen.blit(bg, (-offset.x, -offset.y))
+        screen.blit(player.getImage(),calcPlayerPos(player))
         pygame.display.update()
         clock.tick(20)
 

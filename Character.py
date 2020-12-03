@@ -14,6 +14,7 @@ class Character:
     frames2 = []
     health = 100
     rot = 0 #0 Points up, and rotation is counted clockwise
+    speed = 5
     def __init__(self, wallMap, *point):
         self.wallMap = wallMap
         if len(point) == 2:
@@ -21,10 +22,10 @@ class Character:
         else:
             self.pos = point[0]
     def imageSetup(self, name):
-        self.baseImage = pygame.transform.scale(pygame.image.load("images\\"+name+"\\"+name+".png"), (50, 66))
+        self.baseImage = pygame.transform.scale(pygame.image.load("images\\"+name+"\\"+name+".png"), (100, 132))
         for i in range(10):
             self.frames1.append(
-                pygame.transform.scale(pygame.image.load("images\\"+name+"\\"+name+"P" + str(i) + ".png"), (50, 66)))
+                pygame.transform.scale(pygame.image.load("images\\"+name+"\\"+name+"P" + str(i) + ".png"), (100, 132)))
     def move(self, delta):
         if self.wallMap[int((self.pos.x+delta.x)/50)][int((self.pos.y+delta.y)/50)] == False:
             self.pos.x += delta.x
