@@ -1,7 +1,8 @@
 import sys
 
-import pygame
 import imageio
+import pygame
+
 import PlayableCharacters
 from Character import Point
 
