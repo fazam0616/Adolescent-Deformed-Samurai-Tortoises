@@ -6,6 +6,8 @@ import pygame
 import PlayableCharacters
 from Character import Point
 
+#import Enemy
+
 
 def calcPlayerPos(player):
     x = player.pos.x*2
@@ -119,3 +121,4 @@ def main(*args):
         clock.tick(20)
 
 main()
+#bruh=Enemy.__init__(wallMap)

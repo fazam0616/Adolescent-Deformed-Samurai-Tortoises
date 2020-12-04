@@ -40,8 +40,8 @@ pogArray = [
 ]
 
 data = Pathfinding.getVectorField(Point(150,150),pogArray)
-for row in range(5):
-    for column in range(5):
-        print(data,end=' ')
+for row in range(7):
+    for column in range(7):
+        print(data[row][column], end=" ")
     print("\n")
 
