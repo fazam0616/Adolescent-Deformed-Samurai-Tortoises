@@ -1,4 +1,5 @@
-import Enemy
+import Pathfinding
+from Character import Point
 
 pogArray=[
 [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True],
@@ -28,11 +29,9 @@ pogArray=[
 [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
 ]
 
-bruh = Enemy.Enemy(pogArray)
-bruh.repath(10,10)
-data = bruh.getVectorField()
+data = Pathfinding.getVectorField(Point(100,100),pogArray)
 for row in range(25):
     for column in range(25):
-        print(data)
+        print(data,end=' ')
     print("\n")
 
