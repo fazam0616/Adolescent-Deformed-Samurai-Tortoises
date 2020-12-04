@@ -41,25 +41,25 @@ def setDist(playerPos, distToPlayer, wallMap, bestDirArray):
 
     OOB_count = 0  # out of bounds count
     while (OOB_count < 15):  # makes it go i na spiral around the distance map
-        if wallMap[x][y]:
+        if not wallMap[x][y]:
             x += 1
             while distToPlayer[x][y - 1] < 9999 and not wallMap[x][y - 1]:
-                spiralCheck(x,y, distToPlayer, wallMap, bestDirArray)
+                spiralCheck(x,y, playerPos, distToPlayer, wallMap, bestDirArray)
                 x += 1
                 OOB_count = 0
             y -= 1
             while distToPlayer[x - 1][y] < 9999 and not wallMap[x - 1][y]:
-                spiralCheck(x,y, distToPlayer, wallMap, bestDirArray)
+                spiralCheck(x,y, playerPos, distToPlayer, wallMap, bestDirArray)
                 y -= 1
                 OOB_count = 0
             x -= 1
             while distToPlayer[x][y + 1] < 9999 and not wallMap[x][y + 1]:
-                spiralCheck(x,y, distToPlayer, wallMap, bestDirArray)
+                spiralCheck(x,y, playerPos, distToPlayer, wallMap, bestDirArray)
                 x -= 1
                 OOB_count = 0
             y += 1
             while distToPlayer[x + 1][y] < 9999 and not wallMap[x + 1][y]:
-                spiralCheck(x,y, distToPlayer, wallMap, bestDirArray)
+                spiralCheck(x,y, playerPos, distToPlayer, wallMap, bestDirArray)
                 y += 1
                 OOB_count = 0
         OOB_count += 1
@@ -94,4 +94,4 @@ def getVectorField(playerPos, wallMap):
 
 
     setDist(playerPos, distToPlayer, wallMap, bestDirArray)
-    return distToPlayer
+    return bestDirArray
