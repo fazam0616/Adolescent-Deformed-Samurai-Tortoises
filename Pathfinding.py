@@ -97,5 +97,5 @@ def getVectorField(playerPos, wallMap):
 
 
     setDist(playerPos, distToPlayer, wallMap, bestDirArray)
-    None
+    None # for debugging
     return bestDirArray
