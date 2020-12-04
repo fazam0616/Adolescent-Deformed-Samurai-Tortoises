@@ -1,4 +1,5 @@
 from tkinter import *
+# from pip import Image, ImageTk
 
 # defines functions for buttons
 def playGame():
@@ -35,7 +36,7 @@ app = Tk()
 app.title('🐢 Adolescent Deformed Samurai Tortoises 🐢')
 app.geometry("1280x600+30-100")
 aboutText = Label(app, text="AI Pathing - Hunter Britton\n"
-                                "Menus - Alexander Lay\n"
+                                "Front-End GUI - Alexander Lay\n"
                                 "Animation Engine - Noah Nogueira\n"
                                 "Game Engine - Fahim Zaman\n\n"
                                 "THANKS FOR PLAYING!", bg="#008000", fg="#F5F5F5", font=('Arial', 24))
@@ -43,13 +44,20 @@ backButton = Button(app, text="BACK", bg="#006400", fg="#F5F5F5", command=back)
 backButton.config(height=3, width=20)
 
 # title label
-title = Label(app, text="Adolescent Deformed Samurai Tortoises", bg="#008000", fg="#F5F5F5", font= ('Comic Sans MS',42))
+title = Label(app, text="Adolescent Deformed Samurai Tortoises", bg="#008000", fg="#F5F5F5", font=('Comic Sans MS', 42))
 title.place(x=105, y=100)
 
 # current character
 currentChar = Label(app, text="Current Character:", bg="#008000", fg="#F5F5F5")
 currentChar.config(height=1, width=25)
 currentChar.place(x=50, y=400)
+
+"""
+load = Image.open("images\\orange.png")
+render = ImageTk.PhotoImage(load)
+currentCharImg = Label(app, image=render)
+currentCharImg.place(x=50, y=450)
+"""
 
 # play button
 playButton = Button(app, text="PLAY", bg="#006400", fg="#F5F5F5", command=playGame)
