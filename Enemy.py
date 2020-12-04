@@ -8,7 +8,8 @@ class Enemy (): #perhaps a character arg might be used... idk man im tired
     def __init__(self, wallMap1): #accepts player position in reference to 0,0 being top left
         bestDir = 'N'
         global wallMap
-        wallMap = wallMap1
+        wallMap = []
+        wallMap = list(wallMap1)
         bestDirArray = [
             ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
              '0', '0', '0'],
@@ -69,8 +70,8 @@ class Enemy (): #perhaps a character arg might be used... idk man im tired
                     bestDirArray[row][column] = 'N'
         self.bestDirArray=bestDirArray
 
-        self.x
-        self.y
+        #self.x = 10
+        #self.y = 10
 
         distToPlayer = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # 25x25
@@ -82,7 +83,7 @@ class Enemy (): #perhaps a character arg might be used... idk man im tired
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -146,7 +147,7 @@ class Enemy (): #perhaps a character arg might be used... idk man im tired
         self.OOB_count = 0 # out of bounds count
         while(self.OOB_count < 15): # makes it go i na spiral around the distance map
             self.x += 1
-            while self.distToPlayer[x][y-1] < 9999 and not wallMap[self.x][self.y-1]:
+            while self.distToPlayer[self.x][self.y-1] < 9999 and not wallMap[self.x][self.y-1]:
                 spiralCheck()
                 self.x += 1
                 self.OOB_count=0
@@ -171,7 +172,7 @@ class Enemy (): #perhaps a character arg might be used... idk man im tired
     def repath(self, x, y): #accepts player position in reference to 0,0 being top left
         self.x = x
         self.y = y
-        Enemy.setDist()
+        Enemy.setDist(self)
 
 
     def getVectorField(self):
