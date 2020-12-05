@@ -1,5 +1,5 @@
 from tkinter import *
-# from pip import Image, ImageTk
+import tkinter as tk
 
 # defines functions for buttons
 def playGame():
@@ -31,10 +31,26 @@ def back():
     aboutText.place_forget()
     backButton.place_forget()
 
+def charImage(colour):
+    # resized char sprites
+    if colour == "blue":
+        charImage = tk.PhotoImage(file="images\\blue\\blue.png")
+        return charImage
+    elif colour == "orange":
+        charImage = tk.PhotoImage(file="images\\orange\\orange.png")
+        return charImage
+    elif colour == "purple":
+        charImage = tk.PhotoImage(file="images\\purple\\purple.png")
+        return charImage
+    elif colour == "red":
+        charImage = tk.PhotoImage(file="images\\red\\red.png")
+        return charImage
+
 # open window for application
 app = Tk()
 app.title('🐢 Adolescent Deformed Samurai Tortoises 🐢')
 app.geometry("1280x600+30-100")
+
 aboutText = Label(app, text="AI Pathing - Hunter Britton\n"
                                 "Front-End GUI - Alexander Lay\n"
                                 "Animation Engine - Noah Nogueira\n"
@@ -52,12 +68,10 @@ currentChar = Label(app, text="Current Character:", bg="#008000", fg="#F5F5F5")
 currentChar.config(height=1, width=25)
 currentChar.place(x=50, y=400)
 
-"""
-load = Image.open("images\\orange.png")
-render = ImageTk.PhotoImage(load)
-currentCharImg = Label(app, image=render)
-currentCharImg.place(x=50, y=450)
-"""
+currentColour = "blue"
+currentCharImage = charImage(currentColour)
+currentCharLabel = Label(image=currentCharImage)
+currentCharLabel.place(x=50, y=250)
 
 # play button
 playButton = Button(app, text="PLAY", bg="#006400", fg="#F5F5F5", command=playGame)
