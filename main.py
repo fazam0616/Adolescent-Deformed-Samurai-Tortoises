@@ -5,47 +5,56 @@ import pygame
 
 import PlayableCharacters
 from Character import Point
-
-#import Enemy
-
-
+"""
+Method for getting players on screen position with the cam-offset
+applied. Allows for finding the position of the camera that dis-allows off camera players
+"""
 def calcPlayerPos(player):
+    #The screen is magnified by 2
     x = player.pos.x*2
     y = player.pos.y*2
 
     x -= offset.x
     y -= offset.y
 
+    #Offset by players size
     x -= player.getImage().get_width()/2
     y -= player.getImage().get_height()/2
 
     return (int(x),int(y))
 
-
+#Main game funcion called by Menu.py
 def main(*args):
     global screen
     global wallMap
     global offset
+
     # Initializing pygame internals and basic window setup
     pygame.init()
 
     width = 1280
     height = 600
-
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Adolescent Deformed Samurai Tortoises")
+
     clock = pygame.time.Clock()
+
     wallimage = imageio.imread("images\\walls.bmp")
     wallMap = []
     bg = pygame.transform.scale(pygame.image.load("images\\world.png"),(2500,2500))
+
+    #Camera offset initialization
     offset = Point(0,0)
 
     player = PlayableCharacters.Leo(wallMap, Point(100,100))
+
+    #Boolean flags for movement. Rudimentary but they do the trick
     UP = False
     DOWN = False
     RIGHT = False
     LEFT = False
 
+    #Creation of empty wall map lookup
     for i in range(25):
         wallMap.append([])
         for x in range(25):
@@ -58,12 +67,16 @@ def main(*args):
 
     for i in range(25):
         print(wallMap[i])
+
     #Game loop
     while True:
+        #Going through game events
         for event in pygame.event.get():
+            #If the "X" button is clicked
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            #If a key is pressed/unpressed
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
                     UP = True
@@ -94,29 +107,53 @@ def main(*args):
                     RIGHT = False
                 if event.key == pygame.K_a:
                     LEFT = False
+
+        """
+        Only one form of movement is allowed at a time, in order to allow
+        for basic 90 degree angles in all calcs. 
+        """
         if UP:
+            #Move player
             player.move(Point(0,-player.speed))
+
+            #Fix camera offset
             if player.pos.y * 2 - offset.y < height * 0.3:
                 if offset.y > 0:
                     offset.y -= player.speed*2
         elif DOWN:
+            #Move player
             player.move(Point(0,player.speed))
+
+            #Fix camera offset
             if player.pos.y * 2 - offset.y > height * 0.7:
                 if offset.y < 1900:
                     offset.y += player.speed*2
         elif RIGHT:
+            #Move player
             player.move(Point(player.speed,0))
+
+            #Fix camera offset
             if player.pos.x * 2 - offset.x > width * 0.85:
                 if offset.x < 1220:
                     offset.x += player.speed*2
         elif LEFT:
+            #Move player
             player.move(Point(-player.speed,0))
+
+            #Fix camera offset
             if player.pos.x * 2 - offset.x < width * 0.15:
                 if offset.x > 0:
                     offset.x -= player.speed*2
+        #Fill the screen with black to clear off last frame
         screen.fill((0,0,0))
+
+        #Draw map with offset
         screen.blit(bg, (-offset.x, -offset.y))
+
+        #Draw player
         screen.blit(player.getImage(),calcPlayerPos(player))
+
+        #Updating display and ticking internal game clock
         pygame.display.update()
         clock.tick(20)
 
