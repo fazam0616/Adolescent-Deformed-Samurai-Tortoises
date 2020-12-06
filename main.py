@@ -1,7 +1,8 @@
 import sys
-
+import Enemy
 import imageio
 import pygame
+import random
 
 import PlayableCharacters
 from Character import Point
@@ -9,7 +10,7 @@ from Character import Point
 Method for getting players on screen position with the cam-offset
 applied. Allows for finding the position of the camera that dis-allows off camera players
 """
-def calcPlayerPos(player):
+def calcScreenPos(player):
     #The screen is magnified by 2
     x = player.pos.x*2
     y = player.pos.y*2
@@ -67,6 +68,13 @@ def main(*args):
 
     for i in range(25):
         print(wallMap[i])
+
+    enemies = []
+
+    for i in range(15):
+        enemies.append(Enemy.Enemy(wallMap, Point(
+            random.randrange(50,1200),
+            random.randrange(50,1200))))
 
     #Game loop
     while True:
@@ -150,8 +158,11 @@ def main(*args):
         #Draw map with offset
         screen.blit(bg, (-offset.x, -offset.y))
 
+        for enemy in enemies:
+            screen.blit(enemy.getImage(), calcScreenPos(enemy))
+
         #Draw player
-        screen.blit(player.getImage(),calcPlayerPos(player))
+        screen.blit(player.getImage(), calcScreenPos(player))
 
         #Updating display and ticking internal game clock
         pygame.display.update()
