@@ -1,76 +1,110 @@
 def setDirection(x,y,playerPos, distToPlayer, bestDirArray):  # takes the cordinates and sets a direction to the best next move... hunter doo doo code.. idrk where it goes...
-    #x = int(playerPos.x / 50)
-    #y = int(playerPos.y / 50)
 
     bestDist = distToPlayer[y - 1][x]  # checks the best distance in a square around it and sets the direction to move there
     bestDir = 'N'
-    tempX = x
-    tempY = y - 1
 
     if ((distToPlayer[y][x + 1]) < bestDist):
         bestDist = distToPlayer[y][x + 1]
         bestDir = 'E'
-        tempX = x + 1
-        tempY = y
 
     if ((distToPlayer[y + 1][x]) < bestDist):
         bestDist = distToPlayer[y + 1][x]
         bestDir = 'S'
-        tempX = x
-        tempY = y + 1
 
     if ((distToPlayer[y][x - 1]) < bestDist):
         bestDist = distToPlayer[y][x - 1]
         bestDir = 'W'
-        tempX = x - 1
-        tempY = y
 
     bestDirArray[y][x] = bestDir  # sets the cords of the best spot to the array
     return bestDist
 
 def spiralCheck(x,y, playerPos, distToPlayer, wallMap, bestDirArray):
-    if not (wallMap[y][x]):  # starts the spiral to check squares
-        distToPlayer[y][x] = setDirection(x, y, playerPos, distToPlayer, bestDirArray) + 1  # set a pos in the array to the best direction and just so happens to return a value for distance to player
+    if((x>=0 and x<=24) and (y>=0 and y<=24)):
+        if not (wallMap[y][x]):  # starts the spiral to check squares
+            distToPlayer[y][x] = setDirection(x, y, playerPos, distToPlayer, bestDirArray) + 1  # set a pos in the array to the best direction and just so happens to return a value for distance to player
 
-def setDist(playerPos, distToPlayer, wallMap, bestDirArray):
+# def setDist(playerPos, distToPlayer, wallMap, bestDirArray): # first iteration that doesnt really work that well
+#     x = int(playerPos.x / 50)
+#     y = int(playerPos.y / 50)
+#
+#     distToPlayer[y][x] = 0
+#     dir='E' ## direction for the spiral to keep moving in when in terrain
+#     OOB_count = 0  # out of bounds count
+#     while (OOB_count < 50):  # makes it go in a spiral around the distance map
+#
+#         if ((x>0 and x<25) and (y>0 and y<25)) and not (wallMap[y][x]):
+#             x += 1
+#             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#             while distToPlayer[y - 1][x] < 9999 and not wallMap[y - 1][x]:
+#                 x += 1
+#                 spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#                 OOB_count = int(0)
+#                 dir = 'E'
+#             y -= 1
+#             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#             while distToPlayer[y][x - 1] < 9999 and not wallMap[y][x - 1]:
+#                 y -= 1
+#                 spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#                 OOB_count = int(0)
+#                 dir='N'
+#             x -= 1
+#             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#             while distToPlayer[y + 1][x] < 9999 and not wallMap[y + 1][x]:
+#                 x -= 1
+#                 spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#                 OOB_count = int(0)
+#                 dir='W'
+#             y += 1
+#             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#             while distToPlayer[y][x + 1] < 9999 and not wallMap[y][x + 1]:
+#                 y += 1
+#                 spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#                 OOB_count = int(0)
+#                 dir='S'
+#         else:
+#             OOB_count += 1
+#             if dir == 'E':
+#                 x+=1
+#             elif dir == 'N':
+#                 y-=1
+#             elif dir == 'W':
+#                 x-=1
+#             elif dir == 'S':
+#                 y+=1
+
+def setDist2(playerPos, distToPlayer, wallMap, bestDirArray): # first iteration that doesnt really work that well
     x = int(playerPos.x / 50)
     y = int(playerPos.y / 50)
 
     distToPlayer[y][x] = 0
-
+    bestDirArray[y][x] = 'P'
+    dir='E' ## direction for the spiral to keep moving in when in terrain
     OOB_count = 0  # out of bounds count
-    while (OOB_count < 15):  # makes it go i na spiral around the distance map
-        if not wallMap[y][x]:
-            x += 1
+    radius=1
+
+
+    while (radius<25):
+        x+=1
+        y-=1
+        spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+        for i in range (0, radius*2):
+            y+=1
             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-            while distToPlayer[y - 1][x] < 9999 and not wallMap[y - 1][x]:
-                x += 1
-                spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-                OOB_count = 0
-            y -= 1
+        for i in range (0, radius*2):
+            x-=1
             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-            while distToPlayer[y][x - 1] < 9999 and not wallMap[y][x - 1]:
-                y -= 1
-                spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-                OOB_count = 0
-            x -= 1
+        for i in range (0, radius*2):
+            y-=1
             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-            while distToPlayer[y + 1][x] < 9999 and not wallMap[y + 1][x]:
-                x -= 1
-                spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-                OOB_count = 0
-            y += 1
+        for i in range (0, radius*2):
+            x+=1
             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-            while distToPlayer[y][x + 1] < 9999 and not wallMap[y][x + 1]:
-                y += 1
-                spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-                OOB_count = 0
-        OOB_count += 1
+        radius+=1
 
 
 
-def getVectorField(playerPos, wallMap):
-    bestDir = 'N'
+def getVectorField(playerPos, wallMap): #returns an array of cardinal directions whic hthe AI should follow to get to the player
+    bestDir = 'N'                       # '0' is an unfiilled spot 'x' is a wall
 
     bestDirArray = []
 
@@ -86,8 +120,6 @@ def getVectorField(playerPos, wallMap):
             else:
                 bestDirArray[row][column] = '0'
 
-    # x = 10
-    # y = 10
 
     distToPlayer = []
     for row in range(len(wallMap)):  # fills the array with a high value for the setDir to ignore unless it has been changed
@@ -96,6 +128,6 @@ def getVectorField(playerPos, wallMap):
             distToPlayer[row].append(999999)
 
 
-    setDist(playerPos, distToPlayer, wallMap, bestDirArray)
+    setDist2(playerPos, distToPlayer, wallMap, bestDirArray)
     None # for debugging
     return bestDirArray
