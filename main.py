@@ -162,7 +162,7 @@ def main(*args):
                 if offset.x > 0:
                     offset.x -= pSpeed*2
 
-        dirMap = Pathfinding.getVectorField(player.pos, wallMap, waterMap)
+        dirMap = Pathfinding.getVectorField(player.pos, wallMap, watermap)
 
         # for i in dirMap:
         #     print(i)
@@ -172,7 +172,7 @@ def main(*args):
         screen.fill((0,0,0))
 
         #Draw map with offset
-        screen.blit(bg, (-offset.x, -offset.y))
+        screen.blit(bg, (int(round(-offset.x)), int(round(-offset.y))))
 
         for enemy in enemies:
             enemy.moveD(dirMap[int(enemy.pos.y/50)][int(enemy.pos.x/50)])
