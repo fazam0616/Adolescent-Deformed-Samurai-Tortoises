@@ -14,7 +14,7 @@ class Character:
     frames2 = []
     health = 100
     rot = 0 #0 Points up, and rotation is counted clockwise from there to a max of 3
-    speed = 5
+    speed = 12
 
     def __init__(self, wallMap, *point):
         self.wallMap = wallMap
