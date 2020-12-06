@@ -31,9 +31,11 @@ pogArray=[
 
 
 
-data = Pathfinding.getVectorField(Point(700,325),pogArray)
+data = Pathfinding.getVectorField(Point(4*50,2*50), pogArray)
 for row in range(len(pogArray[1])):
     for column in range(len(pogArray[1])):
         print(data[row][column], end=" ")
     print("\n")
+
+print(data[2][4])
 
