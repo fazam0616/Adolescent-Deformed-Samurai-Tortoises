@@ -6,13 +6,13 @@ import Character
 class Enemy (Character.Character): #perhaps a character arg might be used... idk man im tired
     attack = 0
 
-    def __init__(self, wallMap, *point):
+    def __init__(self, wallMap, waterMap, *point):
         if len(point) == 2:
-            super().__init__(wallMap, point[0], point[1])
+            super().__init__(wallMap, waterMap, point[0], point[1])
         else:
-            super().__init__(wallMap, point[0])
+            super().__init__(wallMap, waterMap, point[0])
         super().imageSetup("black")
-        self.speed = 2
+        self.speed = 1
 
     def getImage(self):
         return pygame.transform.rotate(self.baseImage, (self.rot) * 90)

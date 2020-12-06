@@ -14,10 +14,11 @@ class Character:
     frames2 = []
     health = 100
     rot = 0 #0 Points up, and rotation is counted clockwise from there to a max of 3
-    speed = 5
+    speed = 3
 
-    def __init__(self, wallMap, *point):
+    def __init__(self, wallMap, waterMap, *point):
         self.wallMap = wallMap
+        self.watermap = waterMap
 
         #Accounts for getting an object as a point, and a tuple
         if len(point) == 2:
@@ -35,8 +36,13 @@ class Character:
     def move(self, delta):
         #Making sure the destination tile isn't a wall
         if self.wallMap[int((self.pos.x+delta.x)/50)][int((self.pos.y+delta.y)/50)] == False:
-            self.pos.x += delta.x
-            self.pos.y += delta.y
+            if self.watermap[int((self.pos.x+delta.x)/50)][int((self.pos.y+delta.y)/50)] == False:
+                self.pos.x += delta.x
+                self.pos.y += delta.y
+            else:
+                self.pos.x += delta.x * 0.5
+                self.pos.y += delta.y * 0.5
+
 
         #Fixing orientation
         if (abs(delta.x) < abs(delta.y)):

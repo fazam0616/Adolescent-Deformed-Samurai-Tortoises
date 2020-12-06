@@ -42,13 +42,15 @@ def main(*args):
     clock = pygame.time.Clock()
 
     wallimage = imageio.imread("images\\walls.bmp")
+    waterimage = imageio.imread("images\\water.bmp")
     wallMap = []
+    waterMap =[]
     bg = pygame.transform.scale(pygame.image.load("images\\world.png"),(2500,2500))
 
     #Camera offset initialization
     offset = Point(0,0)
 
-    player = PlayableCharacters.Leo(wallMap, Point(100,100))
+    player = PlayableCharacters.Leo(wallMap, waterMap, Point(100,100))
 
     #Boolean flags for movement. Rudimentary but they do the trick
     UP = False
@@ -59,21 +61,24 @@ def main(*args):
     #Creation of empty wall map lookup
     for i in range(25):
         wallMap.append([])
+        waterMap.append([])
         for x in range(25):
             wallMap[i].append(0)
+            waterMap[i].append(0)
 
     # Reading the wall map and creating a local version for look-up
     for x in range(0, 1250, 50):
         for y in range(0, 1250, 50):
             wallMap[int(x / 50)][int(y / 50)] = True if wallimage[y+25][x+25][0] == 64 else False
+            waterMap[int(x / 50)][int(y / 50)] = True if waterimage[y+25][x+25][2] != 0 else False
 
     for i in range(25):
-        print(wallMap[i])
+        print(waterMap[i])
 
     enemies = []
 
     for i in range(15):
-        enemies.append(Enemy.Enemy(wallMap, Point(
+        enemies.append(Enemy.Enemy(wallMap, waterMap, Point(
             random.randrange(50,1200),
             random.randrange(50,1200))))
 
@@ -156,9 +161,9 @@ def main(*args):
 
         dirMap = Pathfinding.getVectorField(player.pos,wallMap)
 
-        for i in dirMap:
-            print(i)
-        print("-----------------------------------------------------------------------")
+        # for i in dirMap:
+        #     print(i)
+        # print("-----------------------------------------------------------------------")
 
         #Fill the screen with black to clear off last frame
         screen.fill((0,0,0))
@@ -175,7 +180,8 @@ def main(*args):
 
         #Updating display and ticking internal game clock
         pygame.display.update()
-        clock.tick(20)
+        clock.tick(60)
+
 
 main()
 #bruh=Enemy.__init__(wallMap)
