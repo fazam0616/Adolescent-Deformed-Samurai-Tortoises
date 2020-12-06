@@ -14,7 +14,7 @@ class Character:
     frames2 = []
     health = 100
     rot = 0 #0 Points up, and rotation is counted clockwise from there to a max of 3
-    speed = 12
+    speed = 5
 
     def __init__(self, wallMap, *point):
         self.wallMap = wallMap
@@ -28,10 +28,10 @@ class Character:
     def imageSetup(self, name):
         self.baseImage = pygame.transform.scale(pygame.image.load("images\\"+name+"\\"+name+".png"), (100, 132))
 
-        #Reading in attack animations
-        for i in range(10):
-            self.frames1.append(
-                pygame.transform.scale(pygame.image.load("images\\"+name+"\\"+name+"P" + str(i) + ".png"), (100, 132)))
+        # #Reading in attack animations
+        # for i in range(10):
+        #     self.frames1.append(
+        #         pygame.transform.scale(pygame.image.load("images\\"+name+"\\"+name+"P" + str(i) + ".png"), (100, 132)))
     def move(self, delta):
         #Making sure the destination tile isn't a wall
         if self.wallMap[int((self.pos.x+delta.x)/50)][int((self.pos.y+delta.y)/50)] == False:

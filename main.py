@@ -3,6 +3,7 @@ import Enemy
 import imageio
 import pygame
 import random
+import Pathfinding
 
 import PlayableCharacters
 from Character import Point
@@ -152,6 +153,13 @@ def main(*args):
             if player.pos.x * 2 - offset.x < width * 0.15:
                 if offset.x > 0:
                     offset.x -= player.speed*2
+
+        dirMap = Pathfinding.getVectorField(player.pos,wallMap)
+
+        for i in dirMap:
+            print(i)
+        print("-----------------------------------------------------------------------")
+
         #Fill the screen with black to clear off last frame
         screen.fill((0,0,0))
 
@@ -159,6 +167,7 @@ def main(*args):
         screen.blit(bg, (-offset.x, -offset.y))
 
         for enemy in enemies:
+            enemy.moveD(dirMap[int(enemy.pos.y/50)][int(enemy.pos.x/50)])
             screen.blit(enemy.getImage(), calcScreenPos(enemy))
 
         #Draw player

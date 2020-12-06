@@ -1,3 +1,5 @@
+import pygame
+
 import Character
 
 #here begins hunters shit code
@@ -10,6 +12,18 @@ class Enemy (Character.Character): #perhaps a character arg might be used... idk
         else:
             super().__init__(wallMap, point[0])
         super().imageSetup("black")
+        self.speed = 2
 
     def getImage(self):
         return pygame.transform.rotate(self.baseImage, (self.rot) * 90)
+
+    def moveD(self, dir):
+        if dir != "0":
+            if dir == "N":
+                self.move(Character.Point(0, -self.speed))
+            if dir == "S":
+                self.move(Character.Point(0, self.speed))
+            if dir == "E":
+                self.move(Character.Point(self.speed,0))
+            if dir == "W":
+                self.move(Character.Point(-self.speed,0))
