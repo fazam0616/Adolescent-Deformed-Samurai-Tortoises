@@ -27,7 +27,7 @@ class Character:
             self.pos = point[0]
 
     def imageSetup(self, name):
-        self.baseImage = pygame.transform.scale(pygame.image.load("images\\"+name+"\\"+name+".png"), (100, 132))
+        self.baseImage = pygame.image.load("images\\"+name+"\\"+name+".png")
 
         # #Reading in attack animations
         # for i in range(10):
@@ -54,5 +54,6 @@ class Character:
     def getPos(self):
         return self.pos.x, self.pos.y
 
-    def getImage(self):
-        return None
+    def getImage(self, mag):
+        img = pygame.transform.scale(self.baseImage,(int(self.baseImage.get_size()[0]*mag/4),int(self.baseImage.get_size()[1]*mag/4)))
+        return pygame.transform.rotate(img,(self.rot)*90)

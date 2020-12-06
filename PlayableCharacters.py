@@ -13,5 +13,3 @@ class Leo(Character.Character):
         super().imageSetup("blue")
 
 
-    def getImage(self):
-        return pygame.transform.rotate(self.baseImage,(self.rot)*90)

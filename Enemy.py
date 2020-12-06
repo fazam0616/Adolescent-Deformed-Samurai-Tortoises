@@ -14,9 +14,6 @@ class Enemy (Character.Character): #perhaps a character arg might be used... idk
         super().imageSetup("black")
         self.speed = 1
 
-    def getImage(self):
-        return pygame.transform.rotate(self.baseImage, (self.rot) * 90)
-
     def moveD(self, dir):
         if dir != "0":
             if dir == "N":
