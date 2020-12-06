@@ -1,4 +1,4 @@
-def setDirection(x,y,playerPos, distToPlayer, bestDirArray):  # takes the cordinates and sets a direction to the best next move... hunter doo doo code.. idrk where it goes...
+def setDirection(x,y, distToPlayer, bestDirArray):  # takes the cordinates and sets a direction to the best next move... hunter doo doo code.. idrk where it goes...
 
     bestDist = distToPlayer[y - 1][x]  # checks the best distance in a square around it and sets the direction to move there
     bestDir = 'N'
@@ -18,11 +18,12 @@ def setDirection(x,y,playerPos, distToPlayer, bestDirArray):  # takes the cordin
     bestDirArray[y][x] = bestDir  # sets the cords of the best spot to the array
     return bestDist
 
-def spiralCheck(x,y, playerPos, distToPlayer, wallMap, bestDirArray):
+def spiralCheck(x,y, distToPlayer, wallMap, bestDirArray):
     if((x>=0 and x<=24) and (y>=0 and y<=24)):
-        if not (wallMap[y][x]):  # starts the spiral to check squares
-            distToPlayer[y][x] = setDirection(x, y, playerPos, distToPlayer, bestDirArray) + 1  # set a pos in the array to the best direction and just so happens to return a value for distance to player
-
+        if not (wallMap[x][y]):  # starts the spiral to check squares
+            distToPlayer[y][x] = setDirection(x, y, distToPlayer, bestDirArray) + 1  # set a pos in the array to the best direction and just so happens to return a value for distance to player
+            if waterMapG[x][y]:
+                distToPlayer[y][x] += 3 ## adjusts the severity of the water avoidance
 # def setDist(playerPos, distToPlayer, wallMap, bestDirArray): # first iteration that doesnt really work that well
 #     x = int(playerPos.x / 50)
 #     y = int(playerPos.y / 50)
@@ -73,39 +74,39 @@ def spiralCheck(x,y, playerPos, distToPlayer, wallMap, bestDirArray):
 #                 y+=1
 
 def setDist2(playerPos, distToPlayer, wallMap, bestDirArray): # first iteration that doesnt really work that well
-    x = int(playerPos.x / 50)
-    y = int(playerPos.y / 50)
+    for i in range(8):
+        x = int(playerPos.x / 50)
+        y = int(playerPos.y / 50)
 
-    distToPlayer[y][x] = 0
-    bestDirArray[y][x] = 'P'
-    dir='E' ## direction for the spiral to keep moving in when in terrain
-    OOB_count = 0  # out of bounds count
-    radius=1
+        distToPlayer[y][x] = 0
+        bestDirArray[y][x] = 'P'
+        radius=1
 
 
-    while (radius<25):
-        x+=1
-        y-=1
-        spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-        for i in range (0, radius*2):
-            y+=1
-            spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-        for i in range (0, radius*2):
-            x-=1
-            spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-        for i in range (0, radius*2):
-            y-=1
-            spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-        for i in range (0, radius*2):
+        while (radius<25):
             x+=1
-            spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-        radius+=1
+            y-=1
+            spiralCheck(x, y, distToPlayer, wallMap, bestDirArray)
+            for i in range (0, radius*2):
+                y+=1
+                spiralCheck(x, y, distToPlayer, wallMap, bestDirArray)
+            for i in range (0, radius*2):
+                x-=1
+                spiralCheck(x, y, distToPlayer, wallMap, bestDirArray)
+            for i in range (0, radius*2):
+                y-=1
+                spiralCheck(x, y, distToPlayer, wallMap, bestDirArray)
+            for i in range (0, radius*2):
+                x+=1
+                spiralCheck(x, y, distToPlayer, wallMap, bestDirArray)
+            radius+=1
 
 
 
-def getVectorField(playerPos, wallMap): #returns an array of cardinal directions whic hthe AI should follow to get to the player
+def getVectorField(playerPos, wallMap, waterMap): #returns an array of cardinal directions whic hthe AI should follow to get to the player
     bestDir = 'N'                       # '0' is an unfiilled spot 'x' is a wall
-
+    global waterMapG
+    waterMapG = waterMap
     bestDirArray = []
 
     for i in range(len(wallMap)):
@@ -115,7 +116,7 @@ def getVectorField(playerPos, wallMap): #returns an array of cardinal directions
 
     for row in range(len(wallMap)):  # fills the array with a null value for terrain
         for column in range(len(wallMap[row])):
-            if (wallMap[row][column]):
+            if (wallMap[column][row]):
                 bestDirArray[row][column] = 'X'
             else:
                 bestDirArray[row][column] = '0'
