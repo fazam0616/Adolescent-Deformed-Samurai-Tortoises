@@ -159,7 +159,7 @@ def main(*args):
                 if offset.x > 0:
                     offset.x -= player.speed*2
 
-        dirMap = Pathfinding.getVectorField(player.pos,wallMap)
+        dirMap = Pathfinding.getVectorField(player.pos, wallMap, waterMap)
 
         # for i in dirMap:
         #     print(i)
