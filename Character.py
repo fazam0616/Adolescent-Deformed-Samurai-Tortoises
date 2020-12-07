@@ -9,17 +9,17 @@ class Point:
         return str(self.x)+", "+str(self.y)
 
 class Character:
-    baseImage = None
-    frames1 = []
-    frames2 = []
-    health = 100
-    rot = 0 #0 Points up, and rotation is counted clockwise from there to a max of 3
-    speed = 3
-    currentFrame = 0
-    attack = 0
-    frame = 0
-
     def __init__(self, wallMap, waterMap, point):
+        self.baseImage = None
+        self.frames1 = []
+        self.frames2 = []
+        self.health = 100
+        self.rot = 0 #0 Points up, and rotation is counted clockwise from there to a max of 3
+        self.speed = 3
+        self.currentFrame = 0
+        self.attack = 0
+        self.frame = 0
+        self.damage = 0
         self.wallMap = wallMap
         self.watermap = waterMap
         self.pos = point

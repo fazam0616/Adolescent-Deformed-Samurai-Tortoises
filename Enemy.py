@@ -9,7 +9,7 @@ class Enemy (Character.Character): #perhaps a character arg might be used... idk
     def __init__(self, wallMap, waterMap, enemyMap, point):
         self.enemyMap = enemyMap
         super().__init__(wallMap, waterMap, point)
-        super().imageSetup("black")
+        self.imageSetup("black")
         self.speed = 1
         self.enemyMap[int(self.pos.x/50)][int(self.pos.y/50)] += 1
 

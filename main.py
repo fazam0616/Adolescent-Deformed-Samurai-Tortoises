@@ -26,6 +26,10 @@ def calcScreenPos(player):
     return (int(x),int(y))
 
 #Main game funcion called by Menu.py
+def distance(pos1, pos2):
+    return (pos1.x - pos2.x)**2 + (pos1.y - pos2.y)**2
+
+
 def main(*args):
     global screen
     global wallMap
@@ -51,6 +55,7 @@ def main(*args):
     waterMap =[]
     enemyMap = []
     enemyTruthMap = []
+    damageMap = []
     bg = pygame.transform.scale(pygame.image.load("images\\world.png"),(int(len(wallimage[0])*mag),int(len(wallimage[0])*mag)))
 
     #Camera offset initialization
@@ -65,16 +70,18 @@ def main(*args):
     LEFT = False
 
     #Creation of empty wall map lookup
-    for i in range(25):
+    for row in range(25):
         wallMap.append([])
         waterMap.append([])
         enemyMap.append([])
         enemyTruthMap.append([])
+        damageMap.append([])
         for x in range(25):
-            wallMap[i].append(0)
-            waterMap[i].append(0)
-            enemyMap[i].append(0)
-            enemyTruthMap[i].append(0)
+            wallMap[row].append(0)
+            waterMap[row].append(0)
+            enemyMap[row].append(0)
+            enemyTruthMap[row].append(0)
+            damageMap[row].append(0)
 
     # Reading the wall map and creating a local version for look-up
     for x in range(0, len(wallimage[0]), 50):
@@ -84,7 +91,7 @@ def main(*args):
 
     enemies = []
 
-    for i in range(50):
+    for row in range(5):
         enemies.append(Enemy.Enemy(wallMap, waterMap, enemyMap, Point(
             random.randrange(50,1200),
             random.randrange(50,1200))))
@@ -99,23 +106,30 @@ def main(*args):
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                deltaX = pygame.mouse.get_pos()[0]-(calcScreenPos(player)[0]+player.getImage(mag).get_size()[0]/2)
-                deltaY = pygame.mouse.get_pos()[1]-(calcScreenPos(player)[1]+player.getImage(mag).get_size()[1]/2)
-                if (abs(deltaX) >= abs(deltaY)):
-                    if deltaX > 0:
-                        LEFT = False
-                        player.rot = 3
+                if player.attack == 0:
+                    deltaX = pygame.mouse.get_pos()[0]-(calcScreenPos(player)[0]+player.getImage(mag).get_size()[0]/2)
+                    deltaY = pygame.mouse.get_pos()[1]-(calcScreenPos(player)[1]+player.getImage(mag).get_size()[1]/2)
+                    if (abs(deltaX) >= abs(deltaY)):
+                        if deltaX > 0:
+                            LEFT = False
+                            player.rot = 3
+                            damageMap[int(player.pos.x/50)+1][int(player.pos.y/50)] = player.damage
+                        else:
+                            RIGHT = False
+                            player.rot = 1
+                            damageMap[int(player.pos.x/50)-1][int(player.pos.y/50)] = player.damage
                     else:
-                        RIGHT = False
-                        player.rot = 1
-                else:
-                    if deltaY > 0:
-                        UP = False
-                        player.rot = 2
-                    else:
-                        DOWN = False
-                        player.rot = 0
-                player.attack = 1
+                        if deltaY > 0:
+                            UP = False
+                            player.rot = 2
+                            damageMap[int(player.pos.x/50)][int(player.pos.y/50)-1] = player.damage
+                        else:
+                            DOWN = False
+                            player.rot = 0
+                            damageMap[int(player.pos.x/50)][int(player.pos.y/50)+1] = player.damage
+
+                    damageMap[int(player.pos.x / 50)][int(player.pos.y / 50)] = player.damage
+                    player.attack = 1
             #If a key is pressed/unpressed
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
@@ -189,6 +203,11 @@ def main(*args):
             for y in range(25):
                 enemyTruthMap[x][y] = enemyMap[x][y] > 4
 
+        if player.attack == 0:
+            for row in damageMap:
+                for column in range(len(row)):
+                    row[column] = 0
+
         dirMap = Pathfinding.getVectorField(player.pos, wallMap, waterMap, enemyMap)
 
         # for i in dirMap:
@@ -202,8 +221,15 @@ def main(*args):
         screen.blit(bg, (int(round(-offset.x)), int(round(-offset.y))))
 
         for enemy in enemies:
-            enemy.moveD(dirMap[int(enemy.pos.y/50)][int(enemy.pos.x/50)])
-            screen.blit(enemy.getImage(mag), calcScreenPos(enemy))
+            if enemy.health>0:
+                enemy.moveD(dirMap[int(enemy.pos.y/50)][int(enemy.pos.x/50)])
+                enemy.health -= damageMap[int(enemy.pos.y/50)][int(enemy.pos.x/50)]
+                screen.blit(enemy.getImage(mag), calcScreenPos(enemy))
+                if distance(player.pos,enemy.pos) < 200 and enemy.attack == 0:
+                    player.health -= 20
+                    enemy.attack = 1
+            else:
+                enemies.remove(enemy)
 
         #Draw player
         screen.blit(player.getImage(mag), calcScreenPos(player))
