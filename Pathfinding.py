@@ -1,3 +1,5 @@
+#Hunter's Code
+#The pathfinding is kinda scuffed to avoid clumping of enemies and makes it look like its broken but its only kinda brokey
 def setDirection(x,y, distToPlayer, bestDirArray, combineMap):  # takes the cordinates and sets a direction to the best next move... hunter doo doo code.. idrk where it goes...
 
     bestDist = distToPlayer[y - 1][x]  # checks the best distance in a square around it and sets the direction to move there
@@ -19,7 +21,7 @@ def setDirection(x,y, distToPlayer, bestDirArray, combineMap):  # takes the cord
     if not combineMap[x][y]:
         return bestDist
     else:
-        return 9999
+        return bestDist + 9999 # makes terrrain a high dist so nothing paths to it
 
 def spiralCheck(x,y, distToPlayer, combineMap, bestDirArray):
     if((x>=0 and x<=24) and (y>=0 and y<=24)):
@@ -78,16 +80,15 @@ def spiralCheck(x,y, distToPlayer, combineMap, bestDirArray):
 #                 y+=1
 
 def setDist2(playerPos, distToPlayer, combineMap, bestDirArray): # first iteration that doesnt really work that well
-    for i in range(5):
+    for i in range(2): #runs it 5 times to deal with walls VERY INEFFICIENT
         x = int(playerPos.x / 50)
         y = int(playerPos.y / 50)
 
         distToPlayer[y][x] = 0
         bestDirArray[y][x] = 'P'
-        radius=1
+        radius=1\
 
-
-        while (radius<25):
+        while (radius<25): # loops in a spiral around the player position and filling in the dir map & dist map
             x+=1
             y-=1
             spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
@@ -104,7 +105,7 @@ def setDist2(playerPos, distToPlayer, combineMap, bestDirArray): # first iterati
                 x+=1
                 spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
             radius+=1
-
+        none = None
 
 
 def getVectorField(playerPos, wallMap, waterMap, enemyMap): #returns an array of cardinal directions whic hthe AI should follow to get to the player

@@ -58,7 +58,7 @@ waterMap=[
 ]
 
 
-data = Pathfinding.getVectorField(Point(4*50,2*50), pogArray, waterMap)
+data = Pathfinding.getVectorField(Point(4*50,2*50), pogArray, waterMap, pogArray)
 for row in range(len(pogArray[1])):
     for column in range(len(pogArray[1])):
         print(data[row][column], end=" ")
