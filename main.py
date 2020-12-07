@@ -166,39 +166,39 @@ def main(*args):
         Only one form of movement is allowed at a time, in order to allow
         for basic 90 degree angles in all calcs. 
         """
-        pSpeed = player.speed * (0.5 if waterMap[int((player.pos.x)/50)][int((player.pos.y)/50)] else 1)
+
         if UP:
             #Move player
             player.move(Point(0,-player.speed))
 
             #Fix camera offset
-            if player.pos.y * mag - offset.y < height * 0.3:
+            if player.pos.y * mag - offset.y < width*0.15:
                 if offset.y > 0:
-                    offset.y -= pSpeed*2
+                    offset.y = -(width*0.15-(player.pos.y * mag))
         elif DOWN:
             #Move player
             player.move(Point(0,player.speed))
 
             #Fix camera offset
-            if player.pos.y * mag - offset.y > height * 0.7:
+            if player.pos.y * mag - offset.y > height - width*0.15:
                 if offset.y < len(wallimage[0])*mag-height:
-                    offset.y += pSpeed*2
+                    offset.y = -(height - width*0.15-(player.pos.y * mag))
         elif RIGHT:
             #Move player
             player.move(Point(player.speed,0))
 
             #Fix camera offset
-            if player.pos.x * mag - offset.x > width * 0.85:
+            if player.pos.x * mag - offset.x > width - width*0.15:
                 if offset.x < len(wallimage[0])*mag-width:
-                    offset.x += pSpeed*2
+                    offset.x = -(width - width*0.15 - (player.pos.x * mag))
         elif LEFT:
             #Move player
             player.move(Point(-player.speed,0))
 
             #Fix camera offset
-            if player.pos.x * mag - offset.x < width * 0.15:
+            if player.pos.x * mag - offset.x < width*0.15:
                 if offset.x > 0:
-                    offset.x -= pSpeed*2
+                    offset.x = player.pos.x*mag-width*0.15
         for x in range(25):
             for y in range(25):
                 enemyTruthMap[x][y] = enemyMap[x][y] > 4
