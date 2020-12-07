@@ -18,7 +18,7 @@ def charSelect():
     currentCharLabel.place_forget()
     title.place_forget()
 
-    # mikeyImageLabel.place(x=105, y=25)
+    mikeyImageLabel.place(x=105, y=25)
     raphImageLabel.place(x=400, y=25)
     donImageLabel.place(x=705, y=25)
     leoImageLabel.place(x=1000, y=25)
@@ -52,7 +52,7 @@ def back():
     playButton.place(x=560, y=350)
     characterButton.place(x=560, y=425)
     aboutButton.place(x=560, y=500)
-    currentChar.place(x=12, y=350)
+    currentChar.place(x=120, y=350)
     currentCharLabel.place(x=125, y=375)
     if path == "characters":
         backButton.place_forget()
@@ -60,7 +60,7 @@ def back():
         raphButton.place_forget()
         donButton.place_forget()
         leoButton.place_forget()
-        # mikeyImageLabel.place_forget()
+        mikeyImageLabel.place_forget()
         raphImageLabel.place_forget()
         donImageLabel.place_forget()
         leoImageLabel.place_forget()
@@ -142,11 +142,10 @@ donStats.config(height=3, width=18)
 leoStats = Label(app, text="Weapon: Katana\nDamage: 5\n Speed: 3",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 15))
 leoStats.config(height=3, width=18)
-"""
+
 char1Image = tk.PhotoImage(file="images\\orange\\orangeTitle.png")
 mikeyImage = char1Image
 mikeyImageLabel = Label(image=mikeyImage, bg="#006400")
-"""
 char2Image = tk.PhotoImage(file="images\\red\\redTitle.png")
 raphImage = char2Image
 raphImageLabel = Label(image=raphImage, bg="#006400")
