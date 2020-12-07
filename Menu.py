@@ -30,11 +30,6 @@ def charSelect():
     title.place(x=105, y=50)
     backButton.place(x=560, y=500)
 
-def charChoice(colour):
-    global currentColour
-    currentColour = colour
-    print(currentColour)
-
 def about():
     global path
     path = "about"
@@ -68,28 +63,32 @@ def back():
         aboutText.place_forget()
 
 def charImageBlue():
-    global charImage, currentCharLabel
+    global charImage, currentCharLabel, currentColour
     charImage = tk.PhotoImage(file="images\\blue\\blueTitle.png")
     currentCharImage = charImage
     currentCharLabel = Label(image=currentCharImage, bg="#006400")
+    currentColour = "blue"
 
 def charImageOrange():
-    global charImage, currentCharLabel
+    global charImage, currentCharLabel, currentColour
     charImage = tk.PhotoImage(file="images\\orange\\orangeTitle.png")
     currentCharImage = charImage
     currentCharLabel = Label(image=currentCharImage, bg="#006400")
+    currentColour = "orange"
 
 def charImagePurple():
-    global charImage, currentCharLabel
+    global charImage, currentCharLabel, currentColour
     charImage = tk.PhotoImage(file="images\\purple\\purpleTitle.png")
     currentCharImage = charImage
     currentCharLabel = Label(image=currentCharImage, bg="#006400")
+    currentColour = "purple"
 
 def charImageRed():
-    global charImage, currentCharLabel
+    global charImage, currentCharLabel, currentColour
     charImage = tk.PhotoImage(file="images\\red\\redTitle.png")
     currentCharImage = charImage
     currentCharLabel = Label(image=currentCharImage, bg="#006400")
+    currentColour = "red"
 
 # open window for application
 app = Tk()
