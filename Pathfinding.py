@@ -86,7 +86,7 @@ def setDist2(playerPos, distToPlayer, combineMap, bestDirArray): # first iterati
 
         distToPlayer[y][x] = 0
         bestDirArray[y][x] = 'P'
-        radius=1\
+        radius=1
 
         while (radius<25): # loops in a spiral around the player position and filling in the dir map & dist map
             x+=1
