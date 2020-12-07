@@ -24,6 +24,7 @@ def spiralCheck(x,y, distToPlayer, wallMap, bestDirArray):
             distToPlayer[y][x] = setDirection(x, y, distToPlayer, bestDirArray) + 1  # set a pos in the array to the best direction and just so happens to return a value for distance to player
             if waterMapG[x][y]:
                 distToPlayer[y][x] += 3 ## adjusts the severity of the water avoidance
+                
 # def setDist(playerPos, distToPlayer, wallMap, bestDirArray): # first iteration that doesnt really work that well
 #     x = int(playerPos.x / 50)
 #     y = int(playerPos.y / 50)
@@ -103,9 +104,8 @@ def setDist2(playerPos, distToPlayer, wallMap, bestDirArray): # first iteration 
 
 
 
-def getVectorField(playerPos, wallMap, waterMap): #returns an array of cardinal directions whic hthe AI should follow to get to the player
-    bestDir = 'N'                       # '0' is an unfiilled spot 'x' is a wall
-    global waterMapG
+def getVectorField(playerPos, wallMap, waterMap, enemyMap): #returns an array of cardinal directions whic hthe AI should follow to get to the player
+    global waterMapG                                         # '0' is an unfiilled spot 'x' is a wall
     waterMapG = waterMap
     bestDirArray = []
 
@@ -119,7 +119,9 @@ def getVectorField(playerPos, wallMap, waterMap): #returns an array of cardinal 
             if (wallMap[column][row]):
                 bestDirArray[row][column] = 'X'
             else:
-                bestDirArray[row][column] = '0'
+                bestDirArray[column][row] = '0'
+            if (wallMap[column][row] or waterMap[column][row]): ## overides wall map with "terrain" for spots with too many enemies
+                wallMap[column][row] = True
 
 
     distToPlayer = []
