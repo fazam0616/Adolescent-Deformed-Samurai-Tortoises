@@ -31,7 +31,6 @@ def distance(pos1, pos2):
 
 
 def main(*args):
-    print(args[0])
     global screen
     global wallMap
     global offset
@@ -40,7 +39,8 @@ def main(*args):
     # Initializing pygame internals and basic window setup
     pygame.init()
     pygame.font.init()
-    myfont = pygame.font.SysFont('Arial', 30)
+    myfont = pygame.font.SysFont('Arial', 20)
+    enemCount = pygame.font.SysFont('Arial', 10)
 
     mag = 1.25
     width = 1280
@@ -62,13 +62,23 @@ def main(*args):
     #Camera offset initialization
     offset = Point(0,0)
 
-    player = PlayableCharacters.Leo(wallMap, waterMap, Point(1250/2,600/2))
+    if (args[0]=="blue"):
+        player = PlayableCharacters.Leo(wallMap, waterMap, Point(1250/2,600/2))
+    elif (args[0]=="red"):
+        player = PlayableCharacters.Raph(wallMap, waterMap, Point(1250/2,600/2))
+    elif (args[0]=="orange"):
+        player = PlayableCharacters.Mike(wallMap, waterMap, Point(1250/2,600/2))
+    elif (args[0]=="purple"):
+        player = PlayableCharacters.Donny(wallMap, waterMap, Point(1250/2,600/2))
 
     #Boolean flags for movement. Rudimentary but they do the trick
     UP = False
     DOWN = False
     RIGHT = False
     LEFT = False
+
+    #Enables debug visuals
+    DEBUG = False
 
     #Creation of empty wall map lookup
     for row in range(25):
@@ -92,7 +102,7 @@ def main(*args):
 
     enemies = []
 
-    for row in range(3):
+    for row in range(50):
         enemies.append(Enemy.Enemy(wallMap, waterMap, enemyMap, Point(
             random.randrange(50,1200),
             random.randrange(50,1200))))
@@ -132,6 +142,8 @@ def main(*args):
                     player.attack = 1
             #If a key is pressed/unpressed
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_v:
+                    DEBUG = not DEBUG
                 if event.key == pygame.K_w:
                     UP = True
                     DOWN = False
@@ -217,23 +229,54 @@ def main(*args):
         screen.blit(bg, (int(round(-offset.x)), int(round(-offset.y))))
 
         #Draw player pos
-        pygame.draw.rect(screen, (0, 0, 255), [
-            [int(player.pos.x / 50) * 50 * mag - offset.x, int(player.pos.y / 50) * 50 * mag - offset.y],
-            [25 * mag, 50 * mag]])
-
-        #Draw square to show enemy pos
-        for enemy in enemies:
-            pygame.draw.rect(screen, (0, 255, 0), [
-                [int(enemy.pos.x / 50) * 50 * mag - offset.x+25*mag, int(enemy.pos.y / 50) * 50 * mag - offset.y],
+        if DEBUG:
+            pygame.draw.rect(screen, (0, 0, 255), [
+                [int(player.pos.x / 50) * 50 * mag - offset.x, int(player.pos.y / 50) * 50 * mag - offset.y],
                 [25 * mag, 50 * mag]])
 
+        #Draw square to show enemy pos
+        if DEBUG:
+            for enemy in enemies:
+                pygame.draw.rect(screen, (0, 255, 0), [
+                    [int(enemy.pos.x / 50) * 50 * mag - offset.x+25*mag, int(enemy.pos.y / 50) * 50 * mag - offset.y],
+                    [25 * mag, 50 * mag]])
+
         #Draw grid lines and damage squares:
-        for x in range(len(damageMap)):
-            pygame.draw.line(screen, (0,0,0), ((x*50*mag-offset.x),0),((x*50*mag-offset.x),600))
-            pygame.draw.line(screen, (0,0,0), (0,(x*50*mag-offset.y)),(1250,(x*50*mag-offset.y)))
-            for y in range(len(damageMap[x])):
-                if damageMap[x][y] != 0:
-                    pygame.draw.rect(screen, (255,0,0), [[x*50*mag-offset.x+10,y*50*mag-offset.y+10],[50*mag-20,50*mag-20]])
+        if DEBUG:
+            for x in range(len(damageMap)):
+                pygame.draw.line(screen, (0,0,0), ((x*50*mag-offset.x),0),((x*50*mag-offset.x),600))
+                pygame.draw.line(screen, (0,0,0), (0,(x*50*mag-offset.y)),(1250,(x*50*mag-offset.y)))
+                for y in range(len(damageMap[x])):
+                    if damageMap[x][y] != 0:
+                        pygame.draw.rect(screen, (255,0,0), [[x*50*mag-offset.x+10,y*50*mag-offset.y+10],[50*mag-20,50*mag-20]])
+
+        if DEBUG:
+            for x in range(len(damageMap)):
+                for y in range(len(damageMap[x])):
+                    if dirMap[x][y] != 0:
+                        enemDens = myfont.render(str(enemyMap[x][y]),False,(255,0,0))
+                        screen.blit(enemDens,(int((x*50+40)*mag-offset.x),int((y*50)*mag-offset.y)))
+                        if (dirMap[x][y]=="N"):
+                            pygame.draw.line(screen,(255,255,255),
+                                             ((x*50+25)*mag-offset.x,(y*50+10)*mag-offset.y),
+                                             ((x*50+25)*mag-offset.x,(y*50+40)*mag-offset.y))
+                            pygame.draw.circle(screen,(255,255,255),(int((x*50+25)*mag-offset.x),int((y*50+40)*mag-offset.y)),3)
+                        if (dirMap[x][y]=="S"):
+                            pygame.draw.line(screen,(255,255,255),
+                                             ((x*50+25)*mag-offset.x,(y*50+10)*mag-offset.y),
+                                             ((x*50+25)*mag-offset.x,(y*50+40)*mag-offset.y))
+                            pygame.draw.circle(screen,(255,255,255),(int((x*50+25)*mag-offset.x),int((y*50+10)*mag-offset.y)),3)
+                        if (dirMap[x][y]=="E"):
+                            pygame.draw.line(screen,(255,255,255),
+                                             ((x*50+10)*mag-offset.x,(y*50+25)*mag-offset.y),
+                                             ((x*50+40)*mag-offset.x,(y*50+25)*mag-offset.y))
+                            pygame.draw.circle(screen,(255,255,255),(int((x*50+10)*mag-offset.x),int((y*50+25)*mag-offset.y)),3)
+                        if (dirMap[x][y]=="W"):
+                            pygame.draw.line(screen,(255,255,255),
+                                             ((x*50+10)*mag-offset.x,(y*50+25)*mag-offset.y),
+                                             ((x*50+40)*mag-offset.x,(y*50+25)*mag-offset.y))
+                            pygame.draw.circle(screen,(255,255,255),(int((x*50+40)*mag-offset.x),int((y*50+25)*mag-offset.y)),3)
+
 
         for enemy in enemies:
             if enemy.health>0:
@@ -241,18 +284,22 @@ def main(*args):
                 dam = damageMap[int(enemy.pos.x/50)][int(enemy.pos.y/50)]
                 enemy.health -= dam
                 screen.blit(enemy.getImage(mag), calcScreenPos(enemy))
-                if distance(player.pos,enemy.pos) < 200 and enemy.attack == 0:
-                    player.health -= 20
+                if distance(player.pos,enemy.pos) < 40**2 and enemy.attack == 0:
+                    player.health -= 10
                     enemy.attack = 1
             else:
                 enemies.remove(enemy)
-        print(len(enemies))
         #Draw player
         screen.blit(player.getImage(mag), calcScreenPos(player))
 
+        #Drawing health bar
+        pygame.draw.rect(screen,(255,0,0),((1250*0.3/2,10),(1260*(2/3),20)))
+        pygame.draw.rect(screen,(0,255,0),((1250*0.3/2,10),(1260*(2/3)*(player.health/100),20)))
+
         #Updating display and ticking internal game clock
-        textsurface = myfont.render(str(int(clock.get_fps())), False, (0, 255, 0))
-        screen.blit(textsurface, (0,0))
+        fpsCounter = myfont.render("FPS: "+str(int(clock.get_fps())), False, (0,255,0))
+        enemyCount = myfont.render("Enemy Count: "+str(len(enemies)), False, (0,255,0))
+        screen.blit(fpsCounter, (0,0))
+        screen.blit(enemyCount, (0,25))
         clock.tick(60)
         pygame.display.update()
-
