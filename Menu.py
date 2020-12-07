@@ -52,7 +52,7 @@ def back():
     playButton.place(x=560, y=350)
     characterButton.place(x=560, y=425)
     aboutButton.place(x=560, y=500)
-    currentChar.place(x=120, y=350)
+    currentChar.place(x=12, y=350)
     currentCharLabel.place(x=125, y=375)
     if path == "characters":
         backButton.place_forget()
