@@ -18,14 +18,14 @@ def setDirection(x,y, distToPlayer, bestDirArray):  # takes the cordinates and s
     bestDirArray[y][x] = bestDir  # sets the cords of the best spot to the array
     return bestDist
 
-def spiralCheck(x,y, distToPlayer, wallMap, bestDirArray):
+def spiralCheck(x,y, distToPlayer, combineMap, bestDirArray):
     if((x>=0 and x<=24) and (y>=0 and y<=24)):
-        if not (wallMap[x][y]):  # starts the spiral to check squares
+        if not (combineMap[x][y]):  # starts the spiral to check squares
             distToPlayer[y][x] = setDirection(x, y, distToPlayer, bestDirArray) + 1  # set a pos in the array to the best direction and just so happens to return a value for distance to player
             if waterMapG[x][y]:
                 distToPlayer[y][x] += 3 ## adjusts the severity of the water avoidance
                 
-# def setDist(playerPos, distToPlayer, wallMap, bestDirArray): # first iteration that doesnt really work that well
+# def setDist(playerPos, distToPlayer, combineMap, bestDirArray): # first iteration that doesnt really work that well
 #     x = int(playerPos.x / 50)
 #     y = int(playerPos.y / 50)
 #
@@ -34,33 +34,33 @@ def spiralCheck(x,y, distToPlayer, wallMap, bestDirArray):
 #     OOB_count = 0  # out of bounds count
 #     while (OOB_count < 50):  # makes it go in a spiral around the distance map
 #
-#         if ((x>0 and x<25) and (y>0 and y<25)) and not (wallMap[y][x]):
+#         if ((x>0 and x<25) and (y>0 and y<25)) and not (combineMap[y][x]):
 #             x += 1
-#             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-#             while distToPlayer[y - 1][x] < 9999 and not wallMap[y - 1][x]:
+#             spiralCheck(x, y, playerPos, distToPlayer, combineMap, bestDirArray)
+#             while distToPlayer[y - 1][x] < 9999 and not combineMap[y - 1][x]:
 #                 x += 1
-#                 spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#                 spiralCheck(x, y, playerPos, distToPlayer, combineMap, bestDirArray)
 #                 OOB_count = int(0)
 #                 dir = 'E'
 #             y -= 1
-#             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-#             while distToPlayer[y][x - 1] < 9999 and not wallMap[y][x - 1]:
+#             spiralCheck(x, y, playerPos, distToPlayer, combineMap, bestDirArray)
+#             while distToPlayer[y][x - 1] < 9999 and not combineMap[y][x - 1]:
 #                 y -= 1
-#                 spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#                 spiralCheck(x, y, playerPos, distToPlayer, combineMap, bestDirArray)
 #                 OOB_count = int(0)
 #                 dir='N'
 #             x -= 1
-#             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-#             while distToPlayer[y + 1][x] < 9999 and not wallMap[y + 1][x]:
+#             spiralCheck(x, y, playerPos, distToPlayer, combineMap, bestDirArray)
+#             while distToPlayer[y + 1][x] < 9999 and not combineMap[y + 1][x]:
 #                 x -= 1
-#                 spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#                 spiralCheck(x, y, playerPos, distToPlayer, combineMap, bestDirArray)
 #                 OOB_count = int(0)
 #                 dir='W'
 #             y += 1
-#             spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
-#             while distToPlayer[y][x + 1] < 9999 and not wallMap[y][x + 1]:
+#             spiralCheck(x, y, playerPos, distToPlayer, combineMap, bestDirArray)
+#             while distToPlayer[y][x + 1] < 9999 and not combineMap[y][x + 1]:
 #                 y += 1
-#                 spiralCheck(x, y, playerPos, distToPlayer, wallMap, bestDirArray)
+#                 spiralCheck(x, y, playerPos, distToPlayer, combineMap, bestDirArray)
 #                 OOB_count = int(0)
 #                 dir='S'
 #         else:
@@ -74,7 +74,7 @@ def spiralCheck(x,y, distToPlayer, wallMap, bestDirArray):
 #             elif dir == 'S':
 #                 y+=1
 
-def setDist2(playerPos, distToPlayer, wallMap, bestDirArray): # first iteration that doesnt really work that well
+def setDist2(playerPos, distToPlayer, combineMap, bestDirArray): # first iteration that doesnt really work that well
     for i in range(8):
         x = int(playerPos.x / 50)
         y = int(playerPos.y / 50)
@@ -87,19 +87,19 @@ def setDist2(playerPos, distToPlayer, wallMap, bestDirArray): # first iteration 
         while (radius<25):
             x+=1
             y-=1
-            spiralCheck(x, y, distToPlayer, wallMap, bestDirArray)
+            spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
             for i in range (0, radius*2):
                 y+=1
-                spiralCheck(x, y, distToPlayer, wallMap, bestDirArray)
+                spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
             for i in range (0, radius*2):
                 x-=1
-                spiralCheck(x, y, distToPlayer, wallMap, bestDirArray)
+                spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
             for i in range (0, radius*2):
                 y-=1
-                spiralCheck(x, y, distToPlayer, wallMap, bestDirArray)
+                spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
             for i in range (0, radius*2):
                 x+=1
-                spiralCheck(x, y, distToPlayer, wallMap, bestDirArray)
+                spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
             radius+=1
 
 
@@ -108,6 +108,8 @@ def getVectorField(playerPos, wallMap, waterMap, enemyMap): #returns an array of
     global waterMapG                                         # '0' is an unfiilled spot 'x' is a wall
     waterMapG = waterMap
     bestDirArray = []
+    global combineMap 
+    combineMap = []
 
     for i in range(len(wallMap)):
         bestDirArray.append([])
@@ -121,7 +123,7 @@ def getVectorField(playerPos, wallMap, waterMap, enemyMap): #returns an array of
             else:
                 bestDirArray[column][row] = '0'
             if (wallMap[column][row] or waterMap[column][row]): ## overides wall map with "terrain" for spots with too many enemies
-                wallMap[column][row] = True
+                combineMap[column][row] = True
 
 
     distToPlayer = []
@@ -131,6 +133,6 @@ def getVectorField(playerPos, wallMap, waterMap, enemyMap): #returns an array of
             distToPlayer[row].append(999999)
 
 
-    setDist2(playerPos, distToPlayer, wallMap, bestDirArray)
+    setDist2(playerPos, distToPlayer, combineMap, bestDirArray)
     None # for debugging
     return bestDirArray
