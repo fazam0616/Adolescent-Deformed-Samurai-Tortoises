@@ -1,9 +1,12 @@
 from tkinter import *
 import tkinter as tk
+# import main
 
 # defines functions for buttons
 def playGame():
-    print("plays game")
+    global app
+    app.quit()
+    # main.main(currentColour)
 
 def charSelect():
     global path
@@ -13,7 +16,11 @@ def charSelect():
     aboutButton.place_forget()
     currentChar.place_forget()
     currentCharLabel.place_forget()
-    # global mikeyButton, raphButton, donButton, leoButton
+
+    # mikeyImageLabel.place(x=105, y=150)
+    raphImageLabel.place(x=400, y=150)
+    donImageLabel.place(x=705, y=150)
+    leoImageLabel.place(x=1000, y=150)
 
     mikeyButton.place(x=100, y=390)
     raphButton.place(x=395, y=390)
@@ -53,28 +60,36 @@ def back():
         raphButton.place_forget()
         donButton.place_forget()
         leoButton.place_forget()
+        # mikeyImageLabel.place_forget()
+        raphImageLabel.place_forget()
+        donImageLabel.place_forget()
+        leoImageLabel.place_forget()
     elif path == "about":
         aboutText.place_forget()
 
 def charImageBlue():
-    global charImage
+    global charImage, currentCharLabel
     charImage = tk.PhotoImage(file="images\\blue\\blueTitle.png")
-    return charImage
+    currentCharImage = charImage
+    currentCharLabel = Label(image=currentCharImage, bg="#006400")
 
 def charImageOrange():
-    global charImage
+    global charImage, currentCharLabel
     charImage = tk.PhotoImage(file="images\\orange\\orangeTitle.png")
-    return charImage
+    currentCharImage = charImage
+    currentCharLabel = Label(image=currentCharImage, bg="#006400")
 
 def charImagePurple():
-    global charImage
+    global charImage, currentCharLabel
     charImage = tk.PhotoImage(file="images\\purple\\purpleTitle.png")
-    return charImage
+    currentCharImage = charImage
+    currentCharLabel = Label(image=currentCharImage, bg="#006400")
 
 def charImageRed():
-    global charImage
+    global charImage, currentCharLabel
     charImage = tk.PhotoImage(file="images\\red\\redTitle.png")
-    return charImage
+    currentCharImage = charImage
+    currentCharLabel = Label(image=currentCharImage, bg="#006400")
 
 # open window for application
 app = Tk()
@@ -106,6 +121,20 @@ donButton.config(height=3, width=12)
 leoButton = Button(app, text="LEO\nWeapon:\nKatana",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImageBlue)
 leoButton.config(height=3, width=12)
+"""
+char1Image = tk.PhotoImage(file="images\\orange\\orangeTitle.png")
+mikeyImage = char1Image
+mikeyImageLabel = Label(image=mikeyImage, bg="#006400")
+"""
+char2Image = tk.PhotoImage(file="images\\red\\redTitle.png")
+raphImage = char2Image
+raphImageLabel = Label(image=raphImage, bg="#006400")
+char3Image = tk.PhotoImage(file="images\\purple\\purpleTitle.png")
+donImage = char3Image
+donImageLabel = Label(image=donImage, bg="#006400")
+char4Image = tk.PhotoImage(file="images\\blue\\blueTitle.png")
+leoImage = char4Image
+leoImageLabel = Label(image=leoImage, bg="#006400")
 
 # title label
 title = Label(app, text="Adolescent Deformed Samurai Tortoises", bg="#008000", fg="#F5F5F5", font=('Comic Sans MS', 42))
