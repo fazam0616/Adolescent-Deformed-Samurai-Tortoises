@@ -11,5 +11,5 @@ class Leo(Character.Character):
         else:
             super().__init__(wallMap, waterMap, point[0])
         super().imageSetup("blue")
-
+\\
 
