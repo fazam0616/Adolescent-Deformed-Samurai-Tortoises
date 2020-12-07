@@ -28,7 +28,7 @@ def spiralCheck(x,y, distToPlayer, combineMap, bestDirArray):
         if not (wallMapG[x][y]):
             distToPlayer[y][x] = setDirection(x, y, distToPlayer, bestDirArray, combineMap) + 1  # set a pos in the array to the best direction and just so happens to return a value for distance to player
             if waterMapG[x][y]:
-                distToPlayer[y][x] += 2 ## adjusts the severity of the water avoidance
+                distToPlayer[y][x] += 3 ## adjusts the severity of the water avoidance
 
 # def setDist(playerPos, distToPlayer, combineMap, bestDirArray): # first iteration that doesnt really work that well
 #     x = int(playerPos.x / 50)
