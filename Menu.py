@@ -1,36 +1,23 @@
 from tkinter import *
 import tkinter as tk
 
-# default character
-currentColour = "blue"
-
 # defines functions for buttons
 def playGame():
     print("plays game")
 
 def charSelect():
+    global path
+    path = "characters"
     playButton.place_forget()
     characterButton.place_forget()
     aboutButton.place_forget()
     currentChar.place_forget()
     currentCharLabel.place_forget()
+    # global mikeyButton, raphButton, donButton, leoButton
 
-    global mikeyButton, raphButton, donButton, leoButton
-    mikeyButton = Button(app, text="MIKEY\nWeapon:\nNunchucks",
-                        bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charChoice("orange"))
-    mikeyButton.config(height=3, width=12)
     mikeyButton.place(x=100, y=390)
-    raphButton = Button(app, text="RAPH\nWeapon:\nSai",
-                        bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charChoice("red"))
-    raphButton.config(height=3, width=12)
     raphButton.place(x=395, y=390)
-    donButton = Button(app, text="DON\nWeapon:\nStaff",
-                        bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charChoice("purple"))
-    donButton.config(height=3, width=12)
     donButton.place(x=700, y=390)
-    leoButton = Button(app, text="LEO\nWeapon:\nKatana",
-                        bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charChoice("blue"))
-    leoButton.config(height=3, width=12)
     leoButton.place(x=995, y=390)
 
     title.place(x=105, y=50)
@@ -39,8 +26,11 @@ def charSelect():
 def charChoice(colour):
     global currentColour
     currentColour = colour
+    print(currentColour)
 
 def about():
+    global path
+    path = "about"
     playButton.place_forget()
     characterButton.place_forget()
     aboutButton.place_forget()
@@ -57,34 +47,42 @@ def back():
     aboutButton.place(x=560, y=500)
     currentChar.place(x=120, y=350)
     currentCharLabel.place(x=125, y=375)
-    backButton.place_forget()
-    try:
+    if path == "characters":
+        backButton.place_forget()
         mikeyButton.place_forget()
         raphButton.place_forget()
         donButton.place_forget()
         leoButton.place_forget()
-    except:
+    elif path == "about":
         aboutText.place_forget()
 
-def charImage(colour):
-    # resized char sprites
-    if colour == "blue":
-        charImage = tk.PhotoImage(file="images\\blue\\blueTitle.png")
-        return charImage
-    elif colour == "orange":
-        charImage = tk.PhotoImage(file="images\\orange\\orangeTitle.png")
-        return charImage
-    elif colour == "purple":
-        charImage = tk.PhotoImage(file="images\\purple\\purpleTitle.png")
-        return charImage
-    elif colour == "red":
-        charImage = tk.PhotoImage(file="images\\red\\redTitle.png")
-        return charImage
+def charImageBlue():
+    global charImage
+    charImage = tk.PhotoImage(file="images\\blue\\blueTitle.png")
+    return charImage
+
+def charImageOrange():
+    global charImage
+    charImage = tk.PhotoImage(file="images\\orange\\orangeTitle.png")
+    return charImage
+
+def charImagePurple():
+    global charImage
+    charImage = tk.PhotoImage(file="images\\purple\\purpleTitle.png")
+    return charImage
+
+def charImageRed():
+    global charImage
+    charImage = tk.PhotoImage(file="images\\red\\redTitle.png")
+    return charImage
 
 # open window for application
 app = Tk()
 app.title('Adolescent Deformed Samurai Tortoises')
 app.geometry("1280x600+30-100")
+
+# default character
+charImage = tk.PhotoImage(file="images\\blue\\blueTitle.png")
 
 backgroundImage = tk.PhotoImage(file="images\\world.png")
 backgroundLabel = Label(image=backgroundImage)
@@ -96,6 +94,18 @@ aboutText = Label(app, text="AI Pathing - Hunter Britton\n"
                             "Animation Engine - Noah Nogueira\n"
                             "Game Engine - Fahim Zaman\n\n"
                             "THANKS FOR PLAYING!", bg="#008000", fg="#F5F5F5", font=('Arial', 24))
+mikeyButton = Button(app, text="MIKEY\nWeapon:\nNunchucks",
+                    bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImageOrange)
+mikeyButton.config(height=3, width=12)
+raphButton = Button(app, text="RAPH\nWeapon:\nSai",
+                    bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImageRed)
+raphButton.config(height=3, width=12)
+donButton = Button(app, text="DON\nWeapon:\nStaff",
+                   bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImagePurple)
+donButton.config(height=3, width=12)
+leoButton = Button(app, text="LEO\nWeapon:\nKatana",
+                   bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImageBlue)
+leoButton.config(height=3, width=12)
 
 # title label
 title = Label(app, text="Adolescent Deformed Samurai Tortoises", bg="#008000", fg="#F5F5F5", font=('Comic Sans MS', 42))
@@ -110,7 +120,7 @@ currentChar = Label(app, text="Current Character:", bg="#006400", fg="#F5F5F5")
 currentChar.config(height=1, width=25)
 currentChar.place(x=120, y=350)
 
-currentCharImage = charImage(currentColour)
+currentCharImage = charImage
 currentCharLabel = Label(image=currentCharImage, bg="#006400")
 currentCharLabel.place(x=125, y=375)
 
