@@ -15,6 +15,9 @@ class Character:
     health = 100
     rot = 0 #0 Points up, and rotation is counted clockwise from there to a max of 3
     speed = 3
+    currentFrame = 0
+    attack = 0
+    frame = 0
 
     def __init__(self, wallMap, waterMap, point):
         self.wallMap = wallMap
@@ -24,10 +27,10 @@ class Character:
     def imageSetup(self, name):
         self.baseImage = pygame.image.load("images\\"+name+"\\"+name+".png")
 
-         #Reading in attack animations
-         #for i in range(10):
-             #self.frames1.append(
-                 #pygame.transform.scale(pygame.image.load("images\\"+name+"\\"+name+"P" + str(i) + ".png"), (100, 132)))
+        #Reading in attack animations
+        for i in range(10):
+         self.frames1.append(
+             pygame.image.load("images\\"+name+"\\"+name+"P" + str(i) + ".png"))
     def move(self, delta):
         #Making sure the destination tile isn't a wall
         if self.wallMap[int((self.pos.x+delta.x)/50)][int((self.pos.y+delta.y)/50)] == False:
@@ -50,5 +53,13 @@ class Character:
         return self.pos.x, self.pos.y
 
     def getImage(self, mag):
-        img = pygame.transform.scale(self.baseImage,(int(self.baseImage.get_size()[0]*mag/4),int(self.baseImage.get_size()[1]*mag/4)))
+        if self.attack == 0:
+            img = pygame.transform.scale(self.baseImage,(int(self.baseImage.get_size()[0]*mag/4),int(self.baseImage.get_size()[1]*mag/4)))
+        else:
+            temp = self.frames1[int(self.frame)]
+            img = pygame.transform.scale(temp,(int(temp.get_size()[0]*mag/4),int(temp.get_size()[1]*mag/4)))
+        self.frame += 0.1
+        if self.frame >= 9:
+            self.frame = 0
+            self.attack = 0
         return pygame.transform.rotate(img,(self.rot)*90)

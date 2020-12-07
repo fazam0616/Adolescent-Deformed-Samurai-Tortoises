@@ -96,6 +96,24 @@ def main(*args):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                deltaX = pygame.mouse.get_pos()[0]-(calcScreenPos(player)[0]+player.getImage(mag).get_size()[0]/2)
+                deltaY = pygame.mouse.get_pos()[1]-(calcScreenPos(player)[1]+player.getImage(mag).get_size()[1]/2)
+                if (abs(deltaX) >= abs(deltaY)):
+                    if deltaX > 0:
+                        LEFT = False
+                        player.rot = 3
+                    else:
+                        RIGHT = False
+                        player.rot = 1
+                else:
+                    if deltaY > 0:
+                        UP = False
+                        player.rot = 2
+                    else:
+                        DOWN = False
+                        player.rot = 0
+                player.attack = 1
             #If a key is pressed/unpressed
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
@@ -167,7 +185,7 @@ def main(*args):
                     offset.x -= pSpeed*2
         for x in range(25):
             for y in range(25):
-                enemyTruthMap[x][y] = enemyMap[x][y] > 3
+                enemyTruthMap[x][y] = enemyMap[x][y] > 4
 
         dirMap = Pathfinding.getVectorField(player.pos, wallMap, waterMap, enemyMap)
 
