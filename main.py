@@ -72,7 +72,7 @@ def main(*args):
             wallMap[i].append(0)
             waterMap[i].append(0)
             enemyMap[i].append(0)
-            enemyTruthMap.append(0)
+            enemyTruthMap[i].append(0)
 
     # Reading the wall map and creating a local version for look-up
     for x in range(0, len(wallimage[0]), 50):
@@ -82,7 +82,7 @@ def main(*args):
 
     enemies = []
 
-    for i in range(15):
+    for i in range(50):
         enemies.append(Enemy.Enemy(wallMap, waterMap, enemyMap, Point(
             random.randrange(50,1200),
             random.randrange(50,1200))))
@@ -194,4 +194,3 @@ def main(*args):
 
 
 main()
-#bruh=Enemy.__init__(wallMap)

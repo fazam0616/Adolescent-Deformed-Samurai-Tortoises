@@ -16,7 +16,7 @@ class Character:
     rot = 0 #0 Points up, and rotation is counted clockwise from there to a max of 3
     speed = 3
 
-    def __init__(self, wallMap, waterMap, *point):
+    def __init__(self, wallMap, waterMap, point):
         self.wallMap = wallMap
         self.watermap = waterMap
         self.pos = point
