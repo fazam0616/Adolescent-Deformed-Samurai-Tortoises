@@ -7,6 +7,7 @@ currentColour = "blue"
 def playGame():
     app.wm_state('iconic')
     main.main(currentColour)
+    app.wm_state('normal')
 
 def charSelect():
     global path
