@@ -58,6 +58,11 @@ def main(*args):
     enemyTruthMap = []
     damageMap = []
     bg = pygame.transform.scale(pygame.image.load("images\\world.png"),(int(len(wallimage[0])*mag),int(len(wallimage[0])*mag)))
+    wave = 0
+    remainSpawn = 2**wave
+    spawns = [Point(12,1),Point(12,23),Point(1,16),Point(23,9)]
+    maxEnemDen = 4
+    killCount = 0
 
     #Camera offset initialization
     offset = Point(0,0)
@@ -102,10 +107,10 @@ def main(*args):
 
     enemies = []
 
-    for row in range(50):
-        enemies.append(Enemy.Enemy(wallMap, waterMap, enemyMap, Point(
-            random.randrange(50,1200),
-            random.randrange(50,1200))))
+    # for row in range(50):
+    #     enemies.append(Enemy.Enemy(wallMap, waterMap, enemyMap, Point(
+    #         random.randrange(50,1200),
+    #         random.randrange(50,1200))))
 
     #Game loop
     while True:
@@ -174,6 +179,34 @@ def main(*args):
                 if event.key == pygame.K_a:
                     LEFT = False
 
+        #Ending the game
+        if player.health < 0:
+            print("You died, after killing "+killCount+" members of the toe clan!")
+
+
+        #Spawning enemies at start of round
+        if len(enemies) == 0:
+            wave += 1
+            remainSpawn = 2**wave
+            for row in enemyMap:
+                for column in range(len(row)):
+                    row[column] = 0
+        if (remainSpawn > 0):
+            for i in range(remainSpawn):
+                availSpawn = []
+                for point in spawns:
+                    if enemyMap[point.x][point.y] < 1:
+                        availSpawn.append(point)
+                if (len(availSpawn) > 0):
+                    spawn = random.choice(availSpawn).__copy__()
+                    remainSpawn -= 1
+                    spawn.x *= 50
+                    spawn.y *= 50
+                    enemy = Enemy.Enemy(wallMap, waterMap, enemyMap, spawn)
+                    enemies.append(enemy)
+                else:
+                    break
+
         """
         Only one form of movement is allowed at a time, in order to allow
         for basic 90 degree angles in all calcs. 
@@ -213,7 +246,7 @@ def main(*args):
                     offset.x = player.pos.x*mag-width*0.15
         for x in range(25):
             for y in range(25):
-                enemyTruthMap[x][y] = enemyMap[x][y] > 4
+                enemyTruthMap[x][y] = enemyMap[x][y] > maxEnemDen
 
         for row in range(len(damageMap)):
             for column in range(len(damageMap[row])):
@@ -250,6 +283,7 @@ def main(*args):
                     if damageMap[x][y] != 0:
                         pygame.draw.rect(screen, (255,0,0), [[x*50*mag-offset.x+10,y*50*mag-offset.y+10],[50*mag-20,50*mag-20]])
 
+        #Draw pathfinding arrows
         if DEBUG:
             for x in range(len(damageMap)):
                 for y in range(len(damageMap[x])):
@@ -288,13 +322,15 @@ def main(*args):
                     player.health -= 10
                     enemy.attack = 1
             else:
+                killCount += 1
+                enemyMap[int(enemy.pos.x/50)][int(enemy.pos.y/50)] -= 1
                 enemies.remove(enemy)
         #Draw player
         screen.blit(player.getImage(mag), calcScreenPos(player))
 
         #Drawing health bar
         pygame.draw.rect(screen,(255,0,0),((1250*0.3/2,10),(1260*(2/3),20)))
-        pygame.draw.rect(screen,(0,255,0),((1250*0.3/2,10),(1260*(2/3)*(player.health/100),20)))
+        pygame.draw.rect(screen,(0,255,0),((1250*0.3/2,10),(1260*(2/3)*(abs(player.health)/100),20)))
 
         #Updating display and ticking internal game clock
         fpsCounter = myfont.render("FPS: "+str(int(clock.get_fps())), False, (0,255,0))

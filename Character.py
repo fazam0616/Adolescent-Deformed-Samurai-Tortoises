@@ -7,6 +7,8 @@ class Point:
         self.y = y
     def __str__(self):
         return str(self.x)+", "+str(self.y)
+    def __copy__(self):
+        return Point(self.x, self.y)
 
 class Character:
     def __init__(self, wallMap, waterMap, point):
