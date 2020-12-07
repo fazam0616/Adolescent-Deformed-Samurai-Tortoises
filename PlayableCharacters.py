@@ -7,18 +7,18 @@ class Leo(Character.Character):
     def __init__(self, wallMap, waterMap, point):
         super().__init__(wallMap, waterMap, point)
         self.imageSetup("blue")
-        self.damage = 50
+        self.damage = 5
 
 class Mike(Character.Character):
     def __init__(self, wallMap, waterMap, point):
         super().__init__(wallMap, waterMap, point)
         super().imageSetup("orange")
-        self.damage = 20
+        self.damage = 2
         self.speed = 6
 
 class Donny(Character.Character):
     def __init__(self, wallMap, waterMap, point):
         super().__init__(wallMap, waterMap, point)
         super().imageSetup("purple")
-        self.damage = 25
+        self.damage = 2.5
         self.speed = 8

@@ -31,6 +31,7 @@ def distance(pos1, pos2):
 
 
 def main(*args):
+    print(args[0])
     global screen
     global wallMap
     global offset
@@ -61,7 +62,7 @@ def main(*args):
     #Camera offset initialization
     offset = Point(0,0)
 
-    player = PlayableCharacters.Leo(wallMap, waterMap, Point(100,100))
+    player = PlayableCharacters.Leo(wallMap, waterMap, Point(1250/2,600/2))
 
     #Boolean flags for movement. Rudimentary but they do the trick
     UP = False
@@ -91,12 +92,11 @@ def main(*args):
 
     enemies = []
 
-    for row in range(5):
+    for row in range(3):
         enemies.append(Enemy.Enemy(wallMap, waterMap, enemyMap, Point(
             random.randrange(50,1200),
             random.randrange(50,1200))))
-    # for i in range(25):
-    #     print(enemyMap[i])
+
     #Game loop
     while True:
         #Going through game events
@@ -122,11 +122,11 @@ def main(*args):
                         if deltaY > 0:
                             UP = False
                             player.rot = 2
-                            damageMap[int(player.pos.x/50)][int(player.pos.y/50)-1] = player.damage
+                            damageMap[int(player.pos.x/50)][int(player.pos.y/50)+1] = player.damage
                         else:
                             DOWN = False
                             player.rot = 0
-                            damageMap[int(player.pos.x/50)][int(player.pos.y/50)+1] = player.damage
+                            damageMap[int(player.pos.x/50)][int(player.pos.y/50)-1] = player.damage
 
                     damageMap[int(player.pos.x / 50)][int(player.pos.y / 50)] = player.damage
                     player.attack = 1
@@ -172,17 +172,17 @@ def main(*args):
             player.move(Point(0,-player.speed))
 
             #Fix camera offset
-            if player.pos.y * mag - offset.y < width*0.15:
+            if player.pos.y * mag - offset.y < width*0.1:
                 if offset.y > 0:
-                    offset.y = -(width*0.15-(player.pos.y * mag))
+                    offset.y = -(width*0.1-(player.pos.y * mag))
         elif DOWN:
             #Move player
             player.move(Point(0,player.speed))
 
             #Fix camera offset
-            if player.pos.y * mag - offset.y > height - width*0.15:
+            if player.pos.y * mag - offset.y > height - width*0.1:
                 if offset.y < len(wallimage[0])*mag-height:
-                    offset.y = -(height - width*0.15-(player.pos.y * mag))
+                    offset.y = -(height - width*0.1-(player.pos.y * mag))
         elif RIGHT:
             #Move player
             player.move(Point(player.speed,0))
@@ -203,16 +203,12 @@ def main(*args):
             for y in range(25):
                 enemyTruthMap[x][y] = enemyMap[x][y] > 4
 
-        if player.attack == 0:
-            for row in damageMap:
-                for column in range(len(row)):
-                    row[column] = 0
+        for row in range(len(damageMap)):
+            for column in range(len(damageMap[row])):
+                if player.attack == 0:
+                    damageMap[row][column] = 0
 
         dirMap = Pathfinding.getVectorField(player.pos, wallMap, waterMap, enemyMap)
-
-        # for i in dirMap:
-        #     print(i)
-        # print("-----------------------------------------------------------------------")
 
         #Fill the screen with black to clear off last frame
         screen.fill((0,0,0))
@@ -220,17 +216,37 @@ def main(*args):
         #Draw map with offset
         screen.blit(bg, (int(round(-offset.x)), int(round(-offset.y))))
 
+        #Draw player pos
+        pygame.draw.rect(screen, (0, 0, 255), [
+            [int(player.pos.x / 50) * 50 * mag - offset.x, int(player.pos.y / 50) * 50 * mag - offset.y],
+            [25 * mag, 50 * mag]])
+
+        #Draw square to show enemy pos
+        for enemy in enemies:
+            pygame.draw.rect(screen, (0, 255, 0), [
+                [int(enemy.pos.x / 50) * 50 * mag - offset.x+25*mag, int(enemy.pos.y / 50) * 50 * mag - offset.y],
+                [25 * mag, 50 * mag]])
+
+        #Draw grid lines and damage squares:
+        for x in range(len(damageMap)):
+            pygame.draw.line(screen, (0,0,0), ((x*50*mag-offset.x),0),((x*50*mag-offset.x),600))
+            pygame.draw.line(screen, (0,0,0), (0,(x*50*mag-offset.y)),(1250,(x*50*mag-offset.y)))
+            for y in range(len(damageMap[x])):
+                if damageMap[x][y] != 0:
+                    pygame.draw.rect(screen, (255,0,0), [[x*50*mag-offset.x+10,y*50*mag-offset.y+10],[50*mag-20,50*mag-20]])
+
         for enemy in enemies:
             if enemy.health>0:
                 enemy.moveD(dirMap[int(enemy.pos.y/50)][int(enemy.pos.x/50)])
-                enemy.health -= damageMap[int(enemy.pos.y/50)][int(enemy.pos.x/50)]
+                dam = damageMap[int(enemy.pos.x/50)][int(enemy.pos.y/50)]
+                enemy.health -= dam
                 screen.blit(enemy.getImage(mag), calcScreenPos(enemy))
                 if distance(player.pos,enemy.pos) < 200 and enemy.attack == 0:
                     player.health -= 20
                     enemy.attack = 1
             else:
                 enemies.remove(enemy)
-
+        print(len(enemies))
         #Draw player
         screen.blit(player.getImage(mag), calcScreenPos(player))
 
