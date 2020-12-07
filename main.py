@@ -46,13 +46,15 @@ def main(*args):
     wallimage = imageio.imread("images\\walls.bmp")
     waterimage = imageio.imread("images\\water.bmp")
     wallMap = []
-    watermap =[]
+    waterMap =[]
+    enemyMap = []
+    enemyTruthMap = []
     bg = pygame.transform.scale(pygame.image.load("images\\world.png"),(int(len(wallimage[0])*mag),int(len(wallimage[0])*mag)))
 
     #Camera offset initialization
     offset = Point(0,0)
 
-    player = PlayableCharacters.Leo(wallMap, watermap, Point(100,100))
+    player = PlayableCharacters.Leo(wallMap, waterMap, Point(100,100))
 
     #Boolean flags for movement. Rudimentary but they do the trick
     UP = False
@@ -63,27 +65,29 @@ def main(*args):
     #Creation of empty wall map lookup
     for i in range(25):
         wallMap.append([])
-        watermap.append([])
+        waterMap.append([])
+        enemyMap.append([])
+        enemyTruthMap.append([])
         for x in range(25):
             wallMap[i].append(0)
-            watermap[i].append(0)
+            waterMap[i].append(0)
+            enemyMap[i].append(0)
+            enemyTruthMap.append(0)
 
     # Reading the wall map and creating a local version for look-up
     for x in range(0, len(wallimage[0]), 50):
         for y in range(0, len(wallimage[0]), 50):
             wallMap[int(x / 50)][int(y / 50)] = True if wallimage[y+25][x+25][0] == 64 else False
-            watermap[int(x / 50)][int(y / 50)] = True if waterimage[y+25][x+25][2] != 0 else False
-
-    for i in range(25):
-        print(watermap[i])
+            waterMap[int(x / 50)][int(y / 50)] = True if waterimage[y+25][x+25][2] != 0 else False
 
     enemies = []
 
     for i in range(15):
-        enemies.append(Enemy.Enemy(wallMap, watermap, Point(
+        enemies.append(Enemy.Enemy(wallMap, waterMap, enemyMap, Point(
             random.randrange(50,1200),
             random.randrange(50,1200))))
-
+    for i in range(25):
+        print(enemyMap[i])
     #Game loop
     while True:
         #Going through game events
@@ -128,7 +132,7 @@ def main(*args):
         Only one form of movement is allowed at a time, in order to allow
         for basic 90 degree angles in all calcs. 
         """
-        pSpeed = player.speed * (0.5 if watermap[int((player.pos.x)/50)][int((player.pos.y)/50)] else 1)
+        pSpeed = player.speed * (0.5 if waterMap[int((player.pos.x)/50)][int((player.pos.y)/50)] else 1)
         if UP:
             #Move player
             player.move(Point(0,-player.speed))
@@ -161,8 +165,11 @@ def main(*args):
             if player.pos.x * mag - offset.x < width * 0.15:
                 if offset.x > 0:
                     offset.x -= pSpeed*2
+        for x in range(25):
+            for y in range(25):
+                enemyTruthMap[x][y] = enemyMap[x][y] > 3
 
-        dirMap = Pathfinding.getVectorField(player.pos, wallMap, watermap)
+        dirMap = Pathfinding.getVectorField(player.pos, wallMap, waterMap, enemyMap)
 
         # for i in dirMap:
         #     print(i)

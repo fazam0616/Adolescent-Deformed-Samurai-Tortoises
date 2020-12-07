@@ -6,15 +6,15 @@ import Character
 class Enemy (Character.Character): #perhaps a character arg might be used... idk man im tired
     attack = 0
 
-    def __init__(self, wallMap, waterMap, *point):
-        if len(point) == 2:
-            super().__init__(wallMap, waterMap, point[0], point[1])
-        else:
-            super().__init__(wallMap, waterMap, point[0])
+    def __init__(self, wallMap, waterMap, enemyMap, point):
+        self.enemyMap = enemyMap
+        super().__init__(wallMap, waterMap, point)
         super().imageSetup("black")
         self.speed = 1
+        self.enemyMap[int(self.pos.x/50)][int(self.pos.y/50)] += 1
 
     def moveD(self, dir):
+        self.enemyMap[int(self.pos.x/50)][int(self.pos.y/50)] -= 1
         if dir != "0":
             if dir == "N":
                 self.move(Character.Point(0, -self.speed))
@@ -24,3 +24,5 @@ class Enemy (Character.Character): #perhaps a character arg might be used... idk
                 self.move(Character.Point(self.speed,0))
             if dir == "W":
                 self.move(Character.Point(-self.speed,0))
+
+        self.enemyMap[int(self.pos.x/50)][int(self.pos.y/50)] += 1

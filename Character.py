@@ -19,12 +19,7 @@ class Character:
     def __init__(self, wallMap, waterMap, *point):
         self.wallMap = wallMap
         self.watermap = waterMap
-
-        #Accounts for getting an object as a point, and a tuple
-        if len(point) == 2:
-            self.pos = Point(point[0], point[1])
-        else:
-            self.pos = point[0]
+        self.pos = point
 
     def imageSetup(self, name):
         self.baseImage = pygame.image.load("images\\"+name+"\\"+name+".png")
