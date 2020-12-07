@@ -3,16 +3,13 @@ def setDirection(x,y, distToPlayer, bestDirArray, combineMap):  # takes the cord
     bestDist = distToPlayer[y - 1][x]  # checks the best distance in a square around it and sets the direction to move there
     bestDir = 'N'
 
-
     if ((distToPlayer[y][x + 1]) < bestDist):
         bestDist = distToPlayer[y][x + 1]
         bestDir = 'E'
 
-
     if ((distToPlayer[y + 1][x]) < bestDist):
         bestDist = distToPlayer[y + 1][x]
         bestDir = 'S'
-
 
     if ((distToPlayer[y][x - 1]) < bestDist):
         bestDist = distToPlayer[y][x - 1]
@@ -22,7 +19,7 @@ def setDirection(x,y, distToPlayer, bestDirArray, combineMap):  # takes the cord
     if not combineMap[x][y]:
         return bestDist
     else:
-        return 999999
+        return 9999
 
 def spiralCheck(x,y, distToPlayer, combineMap, bestDirArray):
     if((x>=0 and x<=24) and (y>=0 and y<=24)):
@@ -81,7 +78,7 @@ def spiralCheck(x,y, distToPlayer, combineMap, bestDirArray):
 #                 y+=1
 
 def setDist2(playerPos, distToPlayer, combineMap, bestDirArray): # first iteration that doesnt really work that well
-    for i in range(8):
+    for i in range(5):
         x = int(playerPos.x / 50)
         y = int(playerPos.y / 50)
 
