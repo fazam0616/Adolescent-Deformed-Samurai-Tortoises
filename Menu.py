@@ -68,12 +68,12 @@ title.place(x=105, y=100)
 # current character
 currentChar = Label(app, text="Current Character:", bg="#008000", fg="#F5F5F5")
 currentChar.config(height=1, width=25)
-currentChar.place(x=50, y=400)
+currentChar.place(x=125, y=185)
 
 currentColour = "blue"
 currentCharImage = charImage(currentColour)
 currentCharLabel = Label(image=currentCharImage)
-currentCharLabel.place(x=50, y=250)
+currentCharLabel.place(x=50, y=200)
 
 # play button
 playButton = Button(app, text="PLAY", bg="#006400", fg="#F5F5F5", command=playGame)
