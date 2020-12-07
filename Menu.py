@@ -1,12 +1,12 @@
 from tkinter import *
 import tkinter as tk
-# import main
+import main
 
 # defines functions for buttons
+currentColour = "blue"
 def playGame():
-    global app
-    app.quit()
-    # main.main(currentColour)
+    app.after(5, func=app.quit())
+    main.main(currentColour)
 
 def charSelect():
     global path

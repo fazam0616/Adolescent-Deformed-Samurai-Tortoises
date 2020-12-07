@@ -88,8 +88,8 @@ def main(*args):
         enemies.append(Enemy.Enemy(wallMap, waterMap, enemyMap, Point(
             random.randrange(50,1200),
             random.randrange(50,1200))))
-    for i in range(25):
-        print(enemyMap[i])
+    # for i in range(25):
+    #     print(enemyMap[i])
     #Game loop
     while True:
         #Going through game events
@@ -214,5 +214,3 @@ def main(*args):
         clock.tick(60)
         pygame.display.update()
 
-
-main()
