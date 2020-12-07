@@ -251,62 +251,13 @@ def main(*args):
 
             dirMap = Pathfinding.getVectorField(player.pos, wallMap, waterMap, enemyMap)
 
-            #Fill the screen with black to clear off last frame
-            screen.fill((0,0,0))
+            # Fill the screen with black to clear off last frame
+            screen.fill((0, 0, 0))
 
-            #Draw map with offset
+            # Draw map with offset
             screen.blit(bg, (int(round(-offset.x)), int(round(-offset.y))))
-
-            #Draw player pos
             if DEBUG:
-                pygame.draw.rect(screen, (0, 0, 255), [
-                    [int(player.pos.x / 50) * 50 * mag - offset.x, int(player.pos.y / 50) * 50 * mag - offset.y],
-                    [25 * mag, 50 * mag]])
-
-            #Draw square to show enemy pos
-            if DEBUG:
-                for enemy in enemies:
-                    pygame.draw.rect(screen, (0, 255, 0), [
-                        [int(enemy.pos.x / 50) * 50 * mag - offset.x+25*mag, int(enemy.pos.y / 50) * 50 * mag - offset.y],
-                        [25 * mag, 50 * mag]])
-
-            #Draw grid lines and damage squares:
-            if DEBUG:
-                for x in range(len(damageMap)):
-                    pygame.draw.line(screen, (0,0,0), ((x*50*mag-offset.x),0),((x*50*mag-offset.x),600))
-                    pygame.draw.line(screen, (0,0,0), (0,(x*50*mag-offset.y)),(1250,(x*50*mag-offset.y)))
-                    for y in range(len(damageMap[x])):
-                        if damageMap[x][y] != 0:
-                            pygame.draw.rect(screen, (255,0,0), [[x*50*mag-offset.x+10,y*50*mag-offset.y+10],[50*mag-20,50*mag-20]])
-
-            #Draw pathfinding arrows
-            if DEBUG:
-                for x in range(len(damageMap)):
-                    for y in range(len(damageMap[x])):
-                        if dirMap[x][y] != 0:
-                            enemDens = myfont.render(str(enemyMap[x][y]),False,(255,0,0))
-                            screen.blit(enemDens,(int((x*50+40)*mag-offset.x),int((y*50)*mag-offset.y)))
-                            if (dirMap[x][y]=="N"):
-                                pygame.draw.line(screen,(255,255,255),
-                                                 ((x*50+25)*mag-offset.x,(y*50+10)*mag-offset.y),
-                                                 ((x*50+25)*mag-offset.x,(y*50+40)*mag-offset.y))
-                                pygame.draw.circle(screen,(255,255,255),(int((x*50+25)*mag-offset.x),int((y*50+40)*mag-offset.y)),3)
-                            if (dirMap[x][y]=="S"):
-                                pygame.draw.line(screen,(255,255,255),
-                                                 ((x*50+25)*mag-offset.x,(y*50+10)*mag-offset.y),
-                                                 ((x*50+25)*mag-offset.x,(y*50+40)*mag-offset.y))
-                                pygame.draw.circle(screen,(255,255,255),(int((x*50+25)*mag-offset.x),int((y*50+10)*mag-offset.y)),3)
-                            if (dirMap[x][y]=="E"):
-                                pygame.draw.line(screen,(255,255,255),
-                                                 ((x*50+10)*mag-offset.x,(y*50+25)*mag-offset.y),
-                                                 ((x*50+40)*mag-offset.x,(y*50+25)*mag-offset.y))
-                                pygame.draw.circle(screen,(255,255,255),(int((x*50+10)*mag-offset.x),int((y*50+25)*mag-offset.y)),3)
-                            if (dirMap[x][y]=="W"):
-                                pygame.draw.line(screen,(255,255,255),
-                                                 ((x*50+10)*mag-offset.x,(y*50+25)*mag-offset.y),
-                                                 ((x*50+40)*mag-offset.x,(y*50+25)*mag-offset.y))
-                                pygame.draw.circle(screen,(255,255,255),(int((x*50+40)*mag-offset.x),int((y*50+25)*mag-offset.y)),3)
-
+                debugDraw(bg, player, enemies, damageMap, dirMap, myfont, enemyMap)
 
             for enemy in enemies:
                 if enemy.health>0:
@@ -326,6 +277,8 @@ def main(*args):
                     killCount += 1
                     enemyMap[int(enemy.pos.x/50)][int(enemy.pos.y/50)] -= 1
                     enemies.remove(enemy)
+
+
             #Draw player
             screen.blit(player.getImage(mag), calcScreenPos(player))
 
@@ -345,3 +298,60 @@ def main(*args):
             print("You died, after killing " + str(killCount) + " members of the toe clan!")
             pygame.quit()
             break
+
+def debugDraw(bg, player, enemies, damageMap, dirMap, myfont, enemyMap):
+
+    # Draw player pos
+    pygame.draw.rect(screen, (0, 0, 255), [
+        [int(player.pos.x / 50) * 50 * mag - offset.x, int(player.pos.y / 50) * 50 * mag - offset.y],
+        [25 * mag, 50 * mag]])
+
+    # Draw square to show enemy pos
+    for enemy in enemies:
+        pygame.draw.rect(screen, (0, 255, 0), [
+            [int(enemy.pos.x / 50) * 50 * mag - offset.x + 25 * mag, int(enemy.pos.y / 50) * 50 * mag - offset.y],
+            [25 * mag, 50 * mag]])
+
+    # Draw grid lines and damage squares:
+    for x in range(len(damageMap)):
+        pygame.draw.line(screen, (0, 0, 0), ((x * 50 * mag - offset.x), 0), ((x * 50 * mag - offset.x), 600))
+        pygame.draw.line(screen, (0, 0, 0), (0, (x * 50 * mag - offset.y)), (1250, (x * 50 * mag - offset.y)))
+        for y in range(len(damageMap[x])):
+            if damageMap[x][y] != 0:
+                pygame.draw.rect(screen, (255, 0, 0), [[x * 50 * mag - offset.x + 10, y * 50 * mag - offset.y + 10],
+                                                           [50 * mag - 20, 50 * mag - 20]])
+
+    # Draw pathfinding arrows
+    for x in range(len(damageMap)):
+        for y in range(len(damageMap[x])):
+            if dirMap[x][y] != 0:
+                enemDens = myfont.render(str(enemyMap[x][y]), False, (255, 0, 0))
+                screen.blit(enemDens, (int((x * 50 + 40) * mag - offset.x), int((y * 50) * mag - offset.y)))
+                if (dirMap[x][y] == "N"):
+                    pygame.draw.line(screen, (255, 255, 255),
+                                     ((x * 50 + 25) * mag - offset.x, (y * 50 + 10) * mag - offset.y),
+                                     ((x * 50 + 25) * mag - offset.x, (y * 50 + 40) * mag - offset.y))
+                    pygame.draw.circle(screen, (255, 255, 255),
+                                       (int((x * 50 + 25) * mag - offset.x), int((y * 50 + 40) * mag - offset.y)),
+                                       3)
+                if (dirMap[x][y] == "S"):
+                    pygame.draw.line(screen, (255, 255, 255),
+                                     ((x * 50 + 25) * mag - offset.x, (y * 50 + 10) * mag - offset.y),
+                                     ((x * 50 + 25) * mag - offset.x, (y * 50 + 40) * mag - offset.y))
+                    pygame.draw.circle(screen, (255, 255, 255),
+                                       (int((x * 50 + 25) * mag - offset.x), int((y * 50 + 10) * mag - offset.y)),
+                                       3)
+                if (dirMap[x][y] == "E"):
+                    pygame.draw.line(screen, (255, 255, 255),
+                                     ((x * 50 + 10) * mag - offset.x, (y * 50 + 25) * mag - offset.y),
+                                     ((x * 50 + 40) * mag - offset.x, (y * 50 + 25) * mag - offset.y))
+                    pygame.draw.circle(screen, (255, 255, 255),
+                                       (int((x * 50 + 10) * mag - offset.x), int((y * 50 + 25) * mag - offset.y)),
+                                       3)
+                if (dirMap[x][y] == "W"):
+                    pygame.draw.line(screen, (255, 255, 255),
+                                     ((x * 50 + 10) * mag - offset.x, (y * 50 + 25) * mag - offset.y),
+                                     ((x * 50 + 40) * mag - offset.x, (y * 50 + 25) * mag - offset.y))
+                    pygame.draw.circle(screen, (255, 255, 255),
+                                       (int((x * 50 + 40) * mag - offset.x), int((y * 50 + 25) * mag - offset.y)),
+                                       3)
