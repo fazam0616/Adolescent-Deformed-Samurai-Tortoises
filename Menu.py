@@ -118,26 +118,26 @@ aboutText = Label(app, text="AI Pathing - Hunter Britton\n"
                             "Animation Engine - Noah Nogueira\n"
                             "Game Engine - Fahim Zaman\n\n"
                             "THANKS FOR PLAYING!", bg="#008000", fg="#F5F5F5", font=('Arial', 24))
-mikeyButton = Button(app, text="MIKEY",
+mikeyButton = Button(app, text="SIMON",
                     bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImageOrange)
 mikeyButton.config(height=3, width=12)
-raphButton = Button(app, text="RAPH",
+raphButton = Button(app, text="URBINO",
                     bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImageRed)
 raphButton.config(height=3, width=12)
-donButton = Button(app, text="DON",
+donButton = Button(app, text="BARDI",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImagePurple)
 donButton.config(height=3, width=12)
-leoButton = Button(app, text="LEO",
+leoButton = Button(app, text="DA VINCI",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImageBlue)
 leoButton.config(height=3, width=12)
 
-mikeyStats = Label(app, text="Weapon: Nunchucks\nDamage: 2\n Speed: 6",
+mikeyStats = Label(app, text="Weapon: Nunchucks\nDamage: 2\n Speed: 8",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 15))
 mikeyStats.config(height=3, width=18)
 raphStats = Label(app, text="Weapon: Sai\nDamage: 7\n Speed: 1.5",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 15))
 raphStats.config(height=3, width=18)
-donStats = Label(app, text="Weapon: Staff\nDamage: 2.5\n Speed: 8",
+donStats = Label(app, text="Weapon: Staff\nDamage: 2.5\n Speed: 6",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 15))
 donStats.config(height=3, width=18)
 leoStats = Label(app, text="Weapon: Katana\nDamage: 5\n Speed: 3",
