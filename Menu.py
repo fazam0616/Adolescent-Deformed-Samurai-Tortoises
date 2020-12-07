@@ -5,7 +5,7 @@ import main
 # defines functions for buttons
 currentColour = "blue"
 def playGame():
-    app.after(5, func=app.quit())
+    app.wm_state('iconic')
     main.main(currentColour)
 
 def charSelect():
@@ -16,24 +16,24 @@ def charSelect():
     aboutButton.place_forget()
     currentChar.place_forget()
     currentCharLabel.place_forget()
+    title.place_forget()
 
-    # mikeyImageLabel.place(x=105, y=150)
-    raphImageLabel.place(x=400, y=150)
-    donImageLabel.place(x=705, y=150)
-    leoImageLabel.place(x=1000, y=150)
+    # mikeyImageLabel.place(x=105, y=25)
+    raphImageLabel.place(x=400, y=25)
+    donImageLabel.place(x=705, y=25)
+    leoImageLabel.place(x=1000, y=25)
 
-    mikeyButton.place(x=100, y=390)
-    raphButton.place(x=395, y=390)
-    donButton.place(x=700, y=390)
-    leoButton.place(x=995, y=390)
+    mikeyButton.place(x=100, y=275)
+    raphButton.place(x=395, y=275)
+    donButton.place(x=700, y=275)
+    leoButton.place(x=995, y=275)
 
-    title.place(x=105, y=50)
+    mikeyStats.place(x=86, y=400)
+    raphStats.place(x=381, y=400)
+    donStats.place(x=686, y=400)
+    leoStats.place(x=981, y=400)
+
     backButton.place(x=560, y=500)
-
-def charChoice(colour):
-    global currentColour
-    currentColour = colour
-    print(currentColour)
 
 def about():
     global path
@@ -64,32 +64,40 @@ def back():
         raphImageLabel.place_forget()
         donImageLabel.place_forget()
         leoImageLabel.place_forget()
+        mikeyStats.place_forget()
+        raphStats.place_forget()
+        donStats.place_forget()
+        leoStats.place_forget()
     elif path == "about":
         aboutText.place_forget()
 
 def charImageBlue():
-    global charImage, currentCharLabel
+    global charImage, currentCharLabel, currentColour
     charImage = tk.PhotoImage(file="images\\blue\\blueTitle.png")
     currentCharImage = charImage
     currentCharLabel = Label(image=currentCharImage, bg="#006400")
+    currentColour = "blue"
 
 def charImageOrange():
-    global charImage, currentCharLabel
+    global charImage, currentCharLabel, currentColour
     charImage = tk.PhotoImage(file="images\\orange\\orangeTitle.png")
     currentCharImage = charImage
     currentCharLabel = Label(image=currentCharImage, bg="#006400")
+    currentColour = "orange"
 
 def charImagePurple():
-    global charImage, currentCharLabel
+    global charImage, currentCharLabel, currentColour
     charImage = tk.PhotoImage(file="images\\purple\\purpleTitle.png")
     currentCharImage = charImage
     currentCharLabel = Label(image=currentCharImage, bg="#006400")
+    currentColour = "purple"
 
 def charImageRed():
-    global charImage, currentCharLabel
+    global charImage, currentCharLabel, currentColour
     charImage = tk.PhotoImage(file="images\\red\\redTitle.png")
     currentCharImage = charImage
     currentCharLabel = Label(image=currentCharImage, bg="#006400")
+    currentColour = "red"
 
 # open window for application
 app = Tk()
@@ -109,18 +117,31 @@ aboutText = Label(app, text="AI Pathing - Hunter Britton\n"
                             "Animation Engine - Noah Nogueira\n"
                             "Game Engine - Fahim Zaman\n\n"
                             "THANKS FOR PLAYING!", bg="#008000", fg="#F5F5F5", font=('Arial', 24))
-mikeyButton = Button(app, text="MIKEY\nWeapon:\nNunchucks",
+mikeyButton = Button(app, text="MIKEY",
                     bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImageOrange)
 mikeyButton.config(height=3, width=12)
-raphButton = Button(app, text="RAPH\nWeapon:\nSai",
+raphButton = Button(app, text="RAPH",
                     bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImageRed)
 raphButton.config(height=3, width=12)
-donButton = Button(app, text="DON\nWeapon:\nStaff",
+donButton = Button(app, text="DON",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImagePurple)
 donButton.config(height=3, width=12)
-leoButton = Button(app, text="LEO\nWeapon:\nKatana",
+leoButton = Button(app, text="LEO",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 18), command=charImageBlue)
 leoButton.config(height=3, width=12)
+
+mikeyStats = Label(app, text="Weapon: Nunchucks\nDamage: 2\n Speed: 6",
+                   bg="#008000", fg="#F5F5F5", font=('Arial', 15))
+mikeyStats.config(height=3, width=18)
+raphStats = Label(app, text="Weapon: Sai\nDamage: 7\n Speed: 1.5",
+                   bg="#008000", fg="#F5F5F5", font=('Arial', 15))
+raphStats.config(height=3, width=18)
+donStats = Label(app, text="Weapon: Staff\nDamage: 2.5\n Speed: 8",
+                   bg="#008000", fg="#F5F5F5", font=('Arial', 15))
+donStats.config(height=3, width=18)
+leoStats = Label(app, text="Weapon: Katana\nDamage: 5\n Speed: 3",
+                   bg="#008000", fg="#F5F5F5", font=('Arial', 15))
+leoStats.config(height=3, width=18)
 """
 char1Image = tk.PhotoImage(file="images\\orange\\orangeTitle.png")
 mikeyImage = char1Image
