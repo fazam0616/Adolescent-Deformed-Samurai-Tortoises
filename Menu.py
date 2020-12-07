@@ -3,7 +3,9 @@ import tkinter as tk
 
 # defines functions for buttons
 def playGame():
+
     print("plays game")
+
 
 def charSelect():
     playButton.place_forget()
@@ -48,7 +50,7 @@ def charImage(colour):
 
 # open window for application
 app = Tk()
-app.title('🐢 Adolescent Deformed Samurai Tortoises 🐢')
+app.title('Adolescent Deformed Samurai Tortoises')
 app.geometry("1280x600+30-100")
 
 aboutText = Label(app, text="AI Pathing - Hunter Britton\n"
