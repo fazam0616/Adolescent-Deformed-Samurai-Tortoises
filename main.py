@@ -34,6 +34,8 @@ def main(*args):
 
     # Initializing pygame internals and basic window setup
     pygame.init()
+    pygame.font.init()
+    myfont = pygame.font.SysFont('Arial', 30)
 
     mag = 1.25
     width = 1280
@@ -207,8 +209,10 @@ def main(*args):
         screen.blit(player.getImage(mag), calcScreenPos(player))
 
         #Updating display and ticking internal game clock
-        pygame.display.update()
+        textsurface = myfont.render(str(int(clock.get_fps())), False, (0, 255, 0))
+        screen.blit(textsurface, (0,0))
         clock.tick(60)
+        pygame.display.update()
 
 
 main()
