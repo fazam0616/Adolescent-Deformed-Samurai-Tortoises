@@ -289,8 +289,10 @@ def main(*args):
             #Updating display and ticking internal game clock
             fpsCounter = myfont.render("FPS: "+str(int(clock.get_fps())), False, (0,255,0))
             enemyCount = myfont.render("Enemy Count: "+str(len(enemies)), False, (0,255,0))
+            waveCount = myfont.render("Wave: " + str(wave), False, (0, 255, 0))
             screen.blit(fpsCounter, (0,0))
             screen.blit(enemyCount, (0,25))
+            screen.blit(waveCount, (0, 50))
             clock.tick(60)
             pygame.display.update()
         else:
