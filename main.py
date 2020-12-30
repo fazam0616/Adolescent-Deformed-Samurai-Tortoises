@@ -58,8 +58,8 @@ def main(*args):
     enemyTruthMap = []
     damageMap = []
     bg = pygame.transform.scale(pygame.image.load("images\\world.png"),(int(len(wallimage[0])*mag),int(len(wallimage[0])*mag)))
-    wave = 0
-    remainSpawn = 2**wave
+    wave = 1
+    remainSpawn = 2*wave
     spawns = [Point(12,1),Point(12,23),Point(1,16),Point(23,9)]
     maxEnemDen = 4
     killCount = 0
@@ -114,7 +114,7 @@ def main(*args):
 
     #Game loop
     while True:
-        if player.health > 0:
+        if player.health > 0 or (player.health <= 0 and DEBUG):
             #Going through game events
             for event in pygame.event.get():
                 #If the "X" button is clicked
@@ -288,11 +288,11 @@ def main(*args):
 
             #Updating display and ticking internal game clock
             fpsCounter = myfont.render("FPS: "+str(int(clock.get_fps())), False, (0,255,0))
-            enemyCount = myfont.render("Enemy Count: "+str(len(enemies)), False, (0,255,0))
             waveCount = myfont.render("Wave: " + str(wave), False, (0, 255, 0))
+            enemyCount = myfont.render("Enemy Count: "+str(len(enemies)), False, (0,255,0))
             screen.blit(fpsCounter, (0,0))
-            screen.blit(enemyCount, (0,25))
-            screen.blit(waveCount, (0, 50))
+            screen.blit(waveCount, (0, 25))
+            screen.blit(enemyCount, (0,50))
             clock.tick(60)
             pygame.display.update()
         else:
