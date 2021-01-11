@@ -114,7 +114,7 @@ backgroundLabel.place(x=10, y=0)
 
 # button objects
 aboutText = Label(app, text="AI Pathing - Hunter Britton\n"
-                            "Front-End GUI - Alexander Lay\n"
+                            "Front End GUI - Alexander Lay\n"
                             "Animation Engine - Noah Nogueira\n"
                             "Game Engine - Fahim Zaman\n\n"
                             "THANKS FOR PLAYING!", bg="#008000", fg="#F5F5F5", font=('Arial', 24))

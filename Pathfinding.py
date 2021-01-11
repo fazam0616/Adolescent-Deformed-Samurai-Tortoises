@@ -80,7 +80,7 @@ def spiralCheck(x,y, distToPlayer, combineMap, bestDirArray):
 #                 y+=1
 
 def setDist2(playerPos, distToPlayer, combineMap, bestDirArray): # first iteration that doesnt really work that well
-    for i in range(2): #runs it 5 times to deal with walls VERY INEFFICIENT
+    for i in range(2): #runs it 2 times to deal with walls VERY INEFFICIENT
         x = int(playerPos.x / 50)
         y = int(playerPos.y / 50)
 
@@ -88,8 +88,8 @@ def setDist2(playerPos, distToPlayer, combineMap, bestDirArray): # first iterati
         bestDirArray[y][x] = 'P'
         radius=1
 
-        while (radius<25): # loops in a spiral around the player position and filling in the dir map & dist map
-            x+=1
+        while (radius<25): # loops in a clockwise spiral around the player position and filling in the dir map & dist map
+            x+=1           #starts up right one above the player
             y-=1
             spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
             for i in range (0, radius*2):
@@ -103,6 +103,28 @@ def setDist2(playerPos, distToPlayer, combineMap, bestDirArray): # first iterati
                 spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
             for i in range (0, radius*2):
                 x+=1
+                spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
+            radius+=1
+
+        radius=1
+        x = int(playerPos.x / 50)
+        y = int(playerPos.y / 50)
+
+        while (radius<25): # same but counter-clockwise spiral
+            x+= 1  # starts up right one above the player
+            y-=1
+            spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
+            for i in range (0, radius*2):
+                x-=1
+                spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
+            for i in range (0, radius*2):
+                y+=1
+                spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
+            for i in range (0, radius*2):
+                x+=1
+                spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
+            for i in range (0, radius*2):
+                y-=1
                 spiralCheck(x, y, distToPlayer, combineMap, bestDirArray)
             radius+=1
         none = None
@@ -143,5 +165,5 @@ def getVectorField(playerPos, wallMap, waterMap, enemyMap): #returns an array of
 
 
     setDist2(playerPos, distToPlayer, combineMap, bestDirArray)
-    None # for debugging
+    None # for debugging ( ͡° ͜ʖ ͡°)
     return bestDirArray
