@@ -21,7 +21,7 @@ class Donny(Character.Character):
     def __init__(self, wallMap, waterMap, point):
         super().__init__(wallMap, waterMap, point)
         super().imageSetup("purple")
-        self.damage = 2.5
+        self.damage = 4
         self.speed = 6
 
 class Raph(Character.Character):

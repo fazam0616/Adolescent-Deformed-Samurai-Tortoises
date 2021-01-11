@@ -114,7 +114,7 @@ def main(*args):
 
     #Game loop
     while True:
-        if player.health > 0:
+        if player.health > 0 or (player.health <= 0 and DEBUG):
             #Going through game events
             for event in pygame.event.get():
                 #If the "X" button is clicked
