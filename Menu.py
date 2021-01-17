@@ -137,7 +137,7 @@ mikeyStats.config(height=3, width=18)
 raphStats = Label(app, text="Weapon: Sai\nDamage: 7\n Speed: 1.5",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 15))
 raphStats.config(height=3, width=18)
-donStats = Label(app, text="Weapon: Staff\nDamage: 2.5\n Speed: 6",
+donStats = Label(app, text="Weapon: Staff\nDamage: 4\n Speed: 6",
                    bg="#008000", fg="#F5F5F5", font=('Arial', 15))
 donStats.config(height=3, width=18)
 leoStats = Label(app, text="Weapon: Katana\nDamage: 5\n Speed: 3",
