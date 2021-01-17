@@ -183,7 +183,7 @@ def main(*args):
             #Spawning enemies at start of round
             if len(enemies) == 0:
                 wave += 1
-                remainSpawn = 2**wave
+                remainSpawn = 2*wave
                 for row in enemyMap:
                     for column in range(len(row)):
                         row[column] = 0
